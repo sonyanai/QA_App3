@@ -78,7 +78,18 @@ public class QuestionDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null){
+        setContentView(R.layout.activity_question_detail2);
+        }else{
         setContentView(R.layout.activity_question_detail);
+        }
+
+
+
+
+        //setContentView(R.layout.activity_question_detail);
 
         // 渡ってきたQuestionのオブジェクトを保持する
         Bundle extras = getIntent().getExtras();
@@ -94,7 +105,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         mAdapter.notifyDataSetChanged();
 
         //ログインしているときfavボタンを表示
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
         /*if (user == null) {
