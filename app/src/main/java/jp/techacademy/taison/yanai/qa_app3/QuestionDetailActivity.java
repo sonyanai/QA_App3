@@ -25,9 +25,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
     private ListView mListView;
     private Question mQuestion;
-    //private Button mButton;
     private QuestionDetailListAdapter mAdapter;
-    //private int sum = 0;
+
 
     private DatabaseReference mAnswerRef;
 
@@ -87,10 +86,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
         }
 
 
-
-
-        //setContentView(R.layout.activity_question_detail);
-
         // 渡ってきたQuestionのオブジェクトを保持する
         Bundle extras = getIntent().getExtras();
         mQuestion = (Question) extras.get("question");
@@ -104,25 +99,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         mListView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
-        //ログインしているときfavボタンを表示
-        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-
-        /*if (user == null) {
-            mButton = (Button)findViewById(R.id.fav_button);
-            mButton.setEnabled(false);
-            mButton.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View v) {
-                    if (読み込んでるファイルがxmlのどっちかのとき) {
-                        //xmlファイル読み込み@fav_btn
-                    } else {
-                        //xmlファイル読み込み@fav_btn_pressed
-                    }
-                    sum += 1;
-                }
-                TextView.setText(String.valueOf(sum));
-            });
-        }*/
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
