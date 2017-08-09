@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -41,6 +43,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
         //質問が追加されたときの処理
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             //mapにdataSnapshot.getValue()をいれる<-どういうこと？
+            //Firebaseのデータ構造がkey-value形式になっているので、
+            // getValue()でその形式のデータ本体を取り出しているという意味
             HashMap map = (HashMap) dataSnapshot.getValue();
 
             //回答idを取得？
@@ -49,12 +53,17 @@ public class QuestionDetailActivity extends AppCompatActivity {
             //mQuestion.getAnswers()という質問データの中のAnswerデータクラスのデータを一つずつanswerに入れて回している
             for(Answer answer : mQuestion.getAnswers()) {
                 // 同じAnswerUidのものが存在しているときは何もしない<-なんで？どういうとき？
+                //onChildAddedというのは`mAnswerRef.addChildEventListener(mEventListener);` を実行したときにコールバックされるのですが、
+                //回答１つにつき１回ずつ呼ばれます。
+                //なので、回答のリストの中にすでに追加されたanswerがあれば重複されないように何もしないという保険的な実装をしています。
+
                 if (answerUid.equals(answer.getAnswerUid())) {
                     return;
                     //何も返しません
                 }
             }
 
+            //key-value形式のデータのkeyを指定して、データの中身を取っているという意味
             String body = (String) map.get("body");
             String name = (String) map.get("name");
             String uid = (String) map.get("uid");
@@ -68,25 +77,28 @@ public class QuestionDetailActivity extends AppCompatActivity {
         }
 
         @Override
-        //???
+        //リスト内のアイテムに対する変更がないかリッスンします。onChildAdded() や
+        // onChildRemoved() と併用して、リストに対する変更をモニタリングします
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
         }
 
         @Override
-        //???
+        //リストから削除されるアイテムがないかリッスンします。onChildAdded() や
+        // onChildChanged() と併用して、リストに対する変更をモニタリングします。
         public void onChildRemoved(DataSnapshot dataSnapshot) {
 
         }
 
         @Override
-        //???
+        //並べ替えリストの項目順に変更がないかリッスンします。 onChildMoved() イベントは常に、
+        // （現在の order-by メソッドに基づく）並べ替え変更が原因の onChildChanged() イベントに後続します
         public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
         }
 
         @Override
-        //???
+        //通信に失敗したり、データを読み書きするのに失敗したときに呼ばれるメソッド
         public void onCancelled(DatabaseError databaseError) {
 
         }
@@ -158,24 +170,57 @@ public class QuestionDetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 FirebaseAuth mAuth;//宣言
                 DatabaseReference mDataBaseReference;//宣言
-                mQuestionArrayList = new ArrayList<Question>();//リストを定義
+                //mQuestionArrayList = new ArrayList<Question>();//リストを定義
+
+
                 mAuth = FirebaseAuth.getInstance();//authorを定義
+                String mQuestionUid;
+
+
                 mDataBaseReference = FirebaseDatabase.getInstance().getReference();//authorの情報を取得
                 FirebaseUser user = mAuth.getCurrentUser();//現在ログインしているアカウントauthorをuserとする
-                DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
-                //データベースにfavRefという領域を定義　FavPATHでuidをfavRefに追加
+                //uidにユーザーidを渡す
+                if (user != null) {
+                    // User is signed in
+                    String uid = user.getUid();
+                } /*else {
+                    // No user is signed in
+                }*/
+                //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                //FirebaseUser user = mAuth.getInstance().getCurrentUser();
+
+                Question qPosition = mQuestionArrayList.get(position);//すべての質問が入ってるmQuestionArrayListを使い今のpositionを取得
+                mQuestionUid = qPosition.getQuestionUid();
+
+
+
+
+                //firebaseのデータ構造のトップから，Const.FavPATH -> user.getUid() -> mQuestion.getQuestionUid()とデータ構造ツリーを辿り，その位置を示すリファレンスを取得しています．
+                //各定数あるいはメソッドはそれぞれ評価されてなんらかの値になっています．
+                //Const.FavPATH = "fav"
+                //user.getUid() = 1
+                //mQuestion.getQuestionUid() = "abcde"
+
+                //仮にこうならば，favRefは，"fav" -> "1" -> "abcde" と辿っていったfirebaseのデータを指し示しているわけです
+                DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid())/*.child(mQuestion.getQuestionUid())*/;
                 Map<String, String> data = new HashMap<String, String>();
-                //<Strng1,String2> String1(categoryみたいなもん)でString2(複数)を呼び出せる用に紐付ける
-                data.put("favRef",mQuestionArrayList.get(position).getUid());
+                data.put("uid", mQuestionUid);
+                favRef.setValue(data);
+
+
+                //Map<String, String> data = new HashMap<String, String>();
+                //<String1,String2> String1(categoryみたいなもん)でString2(複数)を呼び出せる用に紐付ける
+                //data.put("favRef",mQuestionArrayList.get(position).getUid());
                 //favRefに質問idを渡す
-                favRef.push().setValue(data);//firebaseのfavRef領域に
+                //favRef.push().setValue(data);//firebaseのfavRef領域に
                 // dataの情報("favRef",mQuestionArrayList.get(position).getUid())を渡す
 
 
-                /*DatabaseReference favRef = mDataBaseReference.child(Const.UsersPATH).child(user.getUid());
-                Map<String, String> data = new HashMap<String, String>();
-                data.put("name", name);
-                favRef.setValue(data);*/
+
+
+
+                //DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
+                //DatabaseReference answerRef = dataBaseReference.child(Const.ContentsPATH).child(String.valueOf(mQuestion.getGenre())).child(mQuestion.getQuestionUid()).child(Const.AnswersPATH);*/
             }
         });
     }

@@ -16,12 +16,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-
+//BaseAdapterクラスを引き継いだQuestionsListAdapterクラスを作成
 public class QuestionsListAdapter extends BaseAdapter{
+    //mLayoutInflaterを宣言，定義
     private LayoutInflater mLayoutInflater = null;
+    //Questionを入れたArrayListであるmQuestionArrayListを定義
     private ArrayList<Question> mQuestionArrayList;
 
+    //リスナーの登録
     public QuestionsListAdapter(Context context) {
+        //???
         mLayoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -31,19 +35,23 @@ public class QuestionsListAdapter extends BaseAdapter{
     }
 
     @Override
+    //タップされたobjectのpositionを取得
     public Object getItem(int position) {
         return mQuestionArrayList.get(position);
     }
 
     @Override
+    //longとobjectでなにが違うん？
     public long getItemId(int position) {
         return position;
     }
 
     @Override
+    //???
     public View getView(int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
+            //convertViewになにも入ってなかった時の処理
             convertView = mLayoutInflater.inflate(R.layout.list_questions, parent, false);
         }
 

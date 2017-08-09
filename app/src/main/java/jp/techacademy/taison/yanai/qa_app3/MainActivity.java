@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mGenreRef;
     private ListView mListView;
-    private ArrayList<Question> mQuestionArrayList;
+    static ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
 
     private ChildEventListener mEventListener = new ChildEventListener() {
@@ -193,17 +193,17 @@ public class MainActivity extends AppCompatActivity {
                 if (mGenreRef != null) {
                     mGenreRef.removeEventListener(mEventListener);
                 }
-                if(mGenre == 5) {
+                /*if(mGenre == 5) {
                  mGenreRef = mDatabaseReference.child(Const.FavPATH).child(Const.UsersPATH);
                     mGenreRef.addChildEventListener(mEventListener);
                 }else{
                     mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
                     mGenreRef.addChildEventListener(mEventListener);
                 }
-                return true;
-                /*mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
-                mGenreRef.addChildEventListener(mEventListener);
                 return true;*/
+                mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
+                mGenreRef.addChildEventListener(mEventListener);
+                return true;
             }
         });
 
