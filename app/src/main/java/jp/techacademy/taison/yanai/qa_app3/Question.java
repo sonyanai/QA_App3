@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Question implements Serializable {
+
     private String mTitle;
     private String mBody;
     private String mName;
@@ -16,6 +17,8 @@ public class Question implements Serializable {
     private int mGenre;
     private byte[] mBitmapArray;
     private ArrayList<Answer> mAnswerArrayList;
+
+
 
     public String getTitle() {
         return mTitle;

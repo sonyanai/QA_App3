@@ -50,6 +50,7 @@ public class QuestionsListAdapter extends BaseAdapter{
         TextView titleText = (TextView) convertView.findViewById(R.id.titleTextView);
         titleText.setText(mQuestionArrayList.get(position).getTitle());
 
+        //answerの数
         TextView nameText = (TextView) convertView.findViewById(R.id.nameTextView);
         nameText.setText(mQuestionArrayList.get(position).getName());
 

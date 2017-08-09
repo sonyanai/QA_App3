@@ -175,6 +175,10 @@ public class MainActivity extends AppCompatActivity {
                 } else if (id == R.id.nav_compter) {
                     mToolbar.setTitle("コンピューター");
                     mGenre = 4;
+                } else if(id == R.id.nav_fav){
+                    mToolbar.setTitle("お気に入り");
+                    mGenre = 5;
+
                 }
 
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -189,9 +193,17 @@ public class MainActivity extends AppCompatActivity {
                 if (mGenreRef != null) {
                     mGenreRef.removeEventListener(mEventListener);
                 }
-                mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
-                mGenreRef.addChildEventListener(mEventListener);
+                if(mGenre == 5) {
+                 mGenreRef = mDatabaseReference.child(Const.FavPATH).child(Const.UsersPATH);
+                    mGenreRef.addChildEventListener(mEventListener);
+                }else{
+                    mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
+                    mGenreRef.addChildEventListener(mEventListener);
+                }
                 return true;
+                /*mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
+                mGenreRef.addChildEventListener(mEventListener);
+                return true;*/
             }
         });
 

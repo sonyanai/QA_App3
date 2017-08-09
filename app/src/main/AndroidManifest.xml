@@ -32,6 +32,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".QuestionDetailActivity" />
         <activity android:name=".AnswerSendActivity" />
+        <activity android:name=".FavListActivity"></activity>
     </application>
 
 </manifest>
