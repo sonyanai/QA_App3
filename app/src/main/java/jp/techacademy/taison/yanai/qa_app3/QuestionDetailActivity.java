@@ -30,7 +30,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
     private ListView mListView;
     private Question mQuestion;
     private QuestionDetailListAdapter mAdapter;
-    private ArrayList<Question> mQuestionArrayList;
     int position;
 
 
@@ -189,7 +188,9 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 //FirebaseUser user = mAuth.getInstance().getCurrentUser();
 
-                Question qPosition = mQuestionArrayList.get(position);//すべての質問が入ってるmQuestionArrayListを使い今のpositionを取得
+                //MainActivityでmQuestionArrayListをsta ticで宣言しているからMainActivity.mQuestionArrayListで
+                //MainActivityで使ってるmQuestionArrayListをひっぱってこれる！
+                Question qPosition = MainActivity.mQuestionArrayList.get(position);//すべての質問が入ってるmQuestionArrayListを使い今のpositionを取得
                 mQuestionUid = qPosition.getQuestionUid();
 
 
