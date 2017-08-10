@@ -201,15 +201,12 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 //すべての質問が入ってるmQuestionArrayListを使い今のpositionのobject(質問)を取得
 
 
-                //ここでポジションを取得したい？
-                //int qPosition;
-                //qPosition = (mQuestionArrayList.getItemAt(position);
-
-
-
-
                 mQuestionUid = qObject.getQuestionUid();
                 //そのobject(質問)の質問idを取得
+
+
+
+
 
 
 
@@ -221,18 +218,25 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 //mQuestion.getQuestionUid() = "abcde"
 
                 //仮にこうならば，favRefは，"fav" -> "1" -> "abcde" と辿っていったfirebaseのデータを指し示しているわけです
-                DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid())/*.child(mQuestion.getQuestionUid())*/;
-                Map<String, String> data = new HashMap<String, String>();
-                data.put("uid", mQuestionUid);
-                favRef.setValue(data);
+                DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());//Firebase 上の「フォルダ名」として使用している
+                //child(Const.FavPATH)は、 Firebase のデータ階層に一つ「フォルダ」を作っています。そのフォルダの下に、
+                // ユーザーIDでさらに「フォルダ」を作って、そのユーザーIDの「フォルダ」の下に
+                // お気に入りの質問IDを入れ込んでいるのが現状ですね
 
 
-                //Map<String, String> data = new HashMap<String, String>();
-                //<String1,String2> String1(categoryみたいなもん)でString2(複数)を呼び出せる用に紐付ける
-                //data.put("favRef",mQuestionArrayList.get(position).getUid());
-                //favRefに質問idを渡す
-                //favRef.push().setValue(data);//firebaseのfavRef領域に
-                // dataの情報("favRef",mQuestionArrayList.get(position).getUid())を渡す
+
+
+                /*Map<String, String> data = new HashMap<String, String>();
+                data.put("qid", mQuestionUid);
+                //favRef.setValue(data);//一つしか保存できない
+                favRef.push().setValue(data);
+                //ユーザーIDの「フォルダ」の下にもう一階層「フォルダ」ができます
+                // push() というメソッドはランダムな文字列で自動的にフォルダ名が生成します
+
+                ↓お気に入りの質問idしか保存しない場合　　　　*/
+
+                favRef.push().setValue(mQuestionUid);
+
 
 
 

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     // --- ここから ---
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mGenreRef;
+    private DatabaseReference qIdRef;
     private ListView mListView;
     static ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
@@ -283,25 +284,36 @@ public class MainActivity extends AppCompatActivity {
                 mQuestionArrayList.clear();
                 mAdapter.setQuestionArrayList(mQuestionArrayList);
                 mListView.setAdapter(mAdapter);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                String mQuestionUid;
+                int position = 0;
+                Question qObject = mQuestionArrayList.get(position);
+                mQuestionUid = qObject.getQuestionUid();
+
 
                 // 選択したジャンルにリスナーを登録する
                 if (mGenreRef != null) {
                     mGenreRef.removeEventListener(mEventListener);
                 }
-                /*if(mGenre == 5) {
-                 mGenreRef = mDatabaseReference.child(Const.FavPATH).child(Const.UsersPATH);
-                    mGenreRef.addChildEventListener(mEventListener);
+
+
+
+
+                if(mGenre == 5){
+                    qIdRef = mDatabaseReference.child(Const.ContentsPATH);
+                    qIdRef.addChildEventListener(mEventListener);
                 }else{
+                    //DatabaseReferenceでfirebase->contents領域(Firebaseに質問を保存するところ)->ジャンルと
+                    // と進んだジャンル領域にmGenreRefをていぎしますよ
                     mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
+                    //Firebaseに対してそのジャンルの質問のデータの変化を受け取るように先ほど作成した
+                    //一番最初に設定したやつ(一番上)
                     mGenreRef.addChildEventListener(mEventListener);
                 }
-                return true;*/
-                //DatabaseReferenceでfirebase->contents領域(Firebaseに質問を保存するところ)->ジャンルと
-                //と進んだジャンル領域にmGenreRefをていぎしますよ
-                mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
-                //Firebaseに対してそのジャンルの質問のデータの変化を受け取るように先ほど作成した
-                //一番最初に設定したやつ(一番上)
-                mGenreRef.addChildEventListener(mEventListener);
+
+
+
+
                 //boolean型だから
                 //faulseだったらどうなるの？プログラムが何もしなかったと認識します。といっても特に変わったことが起きるわけではありません
                 //メニューが選択された時にプログラム内で何らかの処理を行ったので true を返しています
