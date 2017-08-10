@@ -284,11 +284,11 @@ public class MainActivity extends AppCompatActivity {
                 mQuestionArrayList.clear();
                 mAdapter.setQuestionArrayList(mQuestionArrayList);
                 mListView.setAdapter(mAdapter);
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String mQuestionUid;
                 int position = 0;
                 Question qObject = mQuestionArrayList.get(position);
-                mQuestionUid = qObject.getQuestionUid();
+                mQuestionUid = qObject.getQuestionUid();*/
 
 
                 // 選択したジャンルにリスナーを登録する
