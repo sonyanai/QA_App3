@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.graphics.Color.rgb;
+
+
 public class QuestionDetailActivity extends AppCompatActivity {
 
     private ListView mListView;
@@ -162,11 +165,15 @@ public class QuestionDetailActivity extends AppCompatActivity {
             }
         });
         //宣言　UIのインスタンスをメンバ変数に保持する
-        Button mButton = (Button)findViewById(R.id.fav_button);
+        final Button mButton = (Button)findViewById(R.id.fav_button);
         //リスナーの登録
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //この状態を保存したい
+                mButton.setBackgroundColor(rgb(0,100,200));
+
+
                 FirebaseAuth mAuth;//宣言
                 DatabaseReference mDataBaseReference;//宣言
                 //mQuestionArrayList = new ArrayList<Question>();//リストを定義
@@ -194,7 +201,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 //すべての質問が入ってるmQuestionArrayListを使い今のpositionのobject(質問)を取得
 
 
-                //ここでポジションを取得したい
+                //ここでポジションを取得したい？
+                //int qPosition;
+                //qPosition = (mQuestionArrayList.getItemAt(position);
+
 
 
 

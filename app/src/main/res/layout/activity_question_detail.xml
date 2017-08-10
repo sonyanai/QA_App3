@@ -18,15 +18,13 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
-    <ToggleButton
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/fav_button"
-        android:textOn="fav"
-        android:textOff="fav"
+        android:text="fav"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:background="@drawable/toggle_button"/>
+        android:layout_marginTop="70dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
