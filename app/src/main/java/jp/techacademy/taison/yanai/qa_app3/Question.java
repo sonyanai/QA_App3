@@ -20,6 +20,7 @@ public class Question implements Serializable {
 
 
 
+    //このメソッドの構造となんでTitleではなくmTitleを返すのか
     public String getTitle() {
         return mTitle;
     }
