@@ -41,6 +41,42 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
 
+    //ここからお気に入りの一覧
+    private ArrayList<String> favoriteList;
+    DatabaseReference favoriteRef;
+    private ChildEventListener mEventListenerFav = new ChildEventListener() {
+        @Override
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            /*HashMap map = (HashMap) dataSnapshot.getValue();
+            String questionid = (String) map.get("uuid");//データ構造が違かった
+            favoriteList.add(questionid);*/
+            String questionid = (String) dataSnapshot.getValue();
+            favoriteList.add(questionid);
+
+        }
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+        }
+
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+    //ここまでお気に入り
+
+
     //データに追加・変化があった時に受け取るリスナー
     //一番最初に更新したい！！
     private ChildEventListener mEventListener = new ChildEventListener() {
@@ -101,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
             //アダプタが内部で管理しているデータに変更が生じた後に、
             // アダプターを通じて ListView に再描画を促している
             mAdapter.notifyDataSetChanged();
+
+
         }
 
         @Override
@@ -169,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
         public void onCancelled(DatabaseError databaseError) {
 
         }
+
     };
     // --- ここまで追加する ---
 
@@ -180,6 +219,8 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+
 
         //fabのリスナーの登録
         fab.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
                     //ジャンルを指定していない場合はそれ以上進みたくないからreturnで戻す
                     return;
                 }
+
 
                 // ログイン済みのユーザーを取得する
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -218,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
         // ナビゲーションドロワーの設定
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -279,6 +322,17 @@ public class MainActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.START);
 
 
+                /*private ArrayList<String> favoriteList;
+                private ChildEventListener mEventListenerFav = new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        HashMap map = (HashMap) dataSnapshot.getValue();
+                        String questionid = (String) map.get("uuid");
+                        favoriteList.add(questionid);
+                    }
+                };*/
+
+
                 // 質問のリストをクリアしてから再度Adapterにセットし、
                 // AdapterをListViewにセットし直す
                 mQuestionArrayList.clear();
@@ -310,6 +364,7 @@ public class MainActivity extends AppCompatActivity {
                     //一番最初に設定したやつ(一番上)
                     mGenreRef.addChildEventListener(mEventListener);
                 }
+
 
 
 
@@ -346,6 +401,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+
+
+
+        //お気に入り一覧
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
+
+        favoriteList = new ArrayList<String>();
+        favoriteList.clear();
+
+        favoriteRef = dataBaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
+        favoriteRef.addChildEventListener(mEventListenerFav);
+        /* 今、追加していただいたコードは、本来はユーザーがログインした後で追加するものですが
+        正しく理解して頂くために、onCreateに書いていただきましたので、その辺りはコメントとして書いておいてくださいね！*/
+        //ここまで
     }
     @Override
     //オプションメニュー
