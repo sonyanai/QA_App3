@@ -33,6 +33,8 @@ public class Question implements Serializable {
         return mName;
     }
 
+    //あとで使うと思います。
+    // Questionオブジェクトの質問IDを取得しないといけませんよね。
     public String getUid() {
         return mUid;
     }

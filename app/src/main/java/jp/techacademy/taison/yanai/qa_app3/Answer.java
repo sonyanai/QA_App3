@@ -28,6 +28,8 @@ public class Answer implements Serializable {
         return mName;
     }
 
+    //今は使われていませんが、あとで使うと思います。
+    // Questionオブジェクトの質問IDを取得しないといけませんよね。
     public String getUid() {
         return mUid;
     }

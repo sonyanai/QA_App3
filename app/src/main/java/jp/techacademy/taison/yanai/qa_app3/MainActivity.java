@@ -250,6 +250,42 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                 } else {
+
+
+
+
+
+
+/*
+                    //ここじゃない？
+                    //お気に入り一覧
+                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                    //FirebaseUser user = mAuth.getCurrentUser();
+                    DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
+
+                    favoriteList = new ArrayList<String>();
+                    favoriteList.clear();
+
+                    favoriteRef = dataBaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
+                    favoriteRef.addChildEventListener(mEventListenerFav);
+                    /* 今、追加していただいたコードは、本来はユーザーがログインした後で追加するものですが
+                    正しく理解して頂くために、onCreateに書いていただきましたので、その辺りはコメントとして書いておいてくださいね！*/
+                    //ここまで
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     // ジャンルを渡して質問作成画面を起動する
                     Intent intent = new Intent(getApplicationContext(), QuestionSendActivity.class);
                     //ジャンルを渡す
@@ -406,6 +442,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
+
+
+
+
+
+
+
         //お気に入り一覧
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -420,6 +464,16 @@ public class MainActivity extends AppCompatActivity {
         正しく理解して頂くために、onCreateに書いていただきましたので、その辺りはコメントとして書いておいてくださいね！*/
         //ここまで
     }
+
+
+
+
+
+
+
+
+
+
     @Override
     //オプションメニュー
     public boolean onCreateOptionsMenu(Menu menu) {
