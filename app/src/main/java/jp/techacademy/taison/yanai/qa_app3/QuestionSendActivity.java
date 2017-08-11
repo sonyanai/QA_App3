@@ -101,7 +101,7 @@ public class QuestionSendActivity extends AppCompatActivity implements View.OnCl
                 return;
             }
 
-            // 取得したBimapの長辺を500ピクセルにリサイズする
+            // 取得したBitmapの長辺を500ピクセルにリサイズする
             int imageWidth = image.getWidth();
             int imageHeight = image.getHeight();
             float scale = Math.min((float) 500 / imageWidth, (float) 500 / imageHeight); // (1)

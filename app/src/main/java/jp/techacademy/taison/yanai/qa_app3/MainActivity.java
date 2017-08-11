@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     static ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
 
+    /*
     //ここからお気に入りの一覧
     private ArrayList<String> favoriteList;
     DatabaseReference favoriteRef;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
             /*HashMap map = (HashMap) dataSnapshot.getValue();
             String questionid = (String) map.get("uuid");//データ構造が違かった
             favoriteList.add(questionid);*/
-            String questionid = (String) dataSnapshot.getValue();
+            /*String questionid = (String) dataSnapshot.getValue();
             favoriteList.add(questionid);
 
         }
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
     //ここまでお気に入り
+    */
 
 
     //データに追加・変化があった時に受け取るリスナー
@@ -250,50 +252,18 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                 } else {
-
-
-
-
-
-
-/*
-                    //ここじゃない？
-                    //お気に入り一覧
-                    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                    //FirebaseUser user = mAuth.getCurrentUser();
-                    DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
-
-                    favoriteList = new ArrayList<String>();
-                    favoriteList.clear();
-
-                    favoriteRef = dataBaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
-                    favoriteRef.addChildEventListener(mEventListenerFav);
-                    /* 今、追加していただいたコードは、本来はユーザーがログインした後で追加するものですが
-                    正しく理解して頂くために、onCreateに書いていただきましたので、その辺りはコメントとして書いておいてくださいね！*/
-                    //ここまで
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    // ジャンルを渡して質問作成画面を起動する
-                    Intent intent = new Intent(getApplicationContext(), QuestionSendActivity.class);
-                    //ジャンルを渡す
-                    intent.putExtra("genre", mGenre);
-                    //質問作成画面へ
-                    startActivity(intent);
+                    if(mGenre == 5){
+                        Intent intent = new Intent(getApplicationContext(), FavListActivity.class);
+                        startActivity(intent);
+                    }else{
+                        // ジャンルを渡して質問作成画面を起動する
+                        Intent intent = new Intent(getApplicationContext(), QuestionSendActivity.class);
+                        //ジャンルを渡す
+                        intent.putExtra("genre", mGenre);
+                        //質問作成画面へ
+                        startActivity(intent);
+                    }
                 }
-
             }
         });
 
@@ -371,9 +341,9 @@ public class MainActivity extends AppCompatActivity {
 
                 // 質問のリストをクリアしてから再度Adapterにセットし、
                 // AdapterをListViewにセットし直す
-                mQuestionArrayList.clear();
+               /* mQuestionArrayList.clear();
                 mAdapter.setQuestionArrayList(mQuestionArrayList);
-                mListView.setAdapter(mAdapter);
+                mListView.setAdapter(mAdapter);*/
                 /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 String mQuestionUid;
                 int position = 0;
@@ -381,18 +351,24 @@ public class MainActivity extends AppCompatActivity {
                 mQuestionUid = qObject.getQuestionUid();*/
 
 
-                // 選択したジャンルにリスナーを登録する
-                if (mGenreRef != null) {
-                    mGenreRef.removeEventListener(mEventListener);
-                }
-
 
 
 
                 if(mGenre == 5){
-                    qIdRef = mDatabaseReference.child(Const.ContentsPATH);
-                    qIdRef.addChildEventListener(mEventListener);
+                    //qIdRef = mDatabaseReference.child(Const.ContentsPATH);
+                    //qIdRef.addChildEventListener(mEventListener);
+                    Intent intent = new Intent(getApplicationContext(), FavListActivity.class);
+                    startActivity(intent);
                 }else{
+                    // 質問のリストをクリアしてから再度Adapterにセットし、
+                    // AdapterをListViewにセットし直す
+                    mQuestionArrayList.clear();
+                    mAdapter.setQuestionArrayList(mQuestionArrayList);
+                    mListView.setAdapter(mAdapter);
+                    // 選択したジャンルにリスナーを登録する
+                    if (mGenreRef != null) {
+                        mGenreRef.removeEventListener(mEventListener);
+                    }
                     //DatabaseReferenceでfirebase->contents領域(Firebaseに質問を保存するところ)->ジャンルと
                     // と進んだジャンル領域にmGenreRefをていぎしますよ
                     mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
@@ -411,6 +387,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
+
 
         // Firebase
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
@@ -439,17 +418,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
+        /*
         //お気に入り一覧
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
