@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FavListActivity extends AppCompatActivity {
 
@@ -22,8 +23,6 @@ public class FavListActivity extends AppCompatActivity {
     private ListView mListView;
     private ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
-    private Toolbar mToolbar;
-
 
 
     //ここからお気に入りの一覧
@@ -36,12 +35,48 @@ public class FavListActivity extends AppCompatActivity {
             String questionid = (String) map.get("uuid");//データ構造が違かった
             favoriteList.add(questionid);*/
             String questionid = (String) dataSnapshot.getValue();
+            /*String title = (String) dataSnapshot.get("title");
+            String body = (String) dataSnapshot.get("body");
+            String name = (String) dataSnapshot.get("name");
+            String uid = (String) dataSnapshot.get("uid");*/
 
             favoriteList.add(questionid);
 
+
+            // 質問のリストをクリアしてから再度Adapterにセットし、AdapterをListViewにセットし直す
+            mQuestionArrayList.clear();
+            mAdapter.setQuestionArrayList(mQuestionArrayList);
+            mListView.setAdapter(mAdapter);
+
+
+
+
         }
+
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            HashMap map = (HashMap) dataSnapshot.getValue();
+
+            // 変更があったQuestionを探す
+            for (Question question: mQuestionArrayList) {
+                if (dataSnapshot.getKey().equals(question.getQuestionUid())) {
+                    // このアプリで変更がある可能性があるのは回答(Answer)のみ
+                    question.getAnswers().clear();
+                    HashMap answerMap = (HashMap) map.get("answers");
+                    if (answerMap != null) {
+                        for (Object key : answerMap.keySet()) {
+                            HashMap temp = (HashMap) answerMap.get((String) key);
+                            String answerBody = (String) temp.get("body");
+                            String answerName = (String) temp.get("name");
+                            String answerUid = (String) temp.get("uid");
+                            Answer answer = new Answer(answerBody, answerName, answerUid, (String) key);
+                            question.getAnswers().add(answer);
+                        }
+                    }
+
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
 
         }
 
@@ -59,11 +94,14 @@ public class FavListActivity extends AppCompatActivity {
         public void onCancelled(DatabaseError databaseError) {
 
         }
+
+
+
+
+
+
     };
     //ここまでお気に入り
-
-
-
 
 
     @Override
@@ -97,7 +135,7 @@ public class FavListActivity extends AppCompatActivity {
         // ListViewの準備
         mListView = (ListView) findViewById(R.id.listView);
         mAdapter = new QuestionsListAdapter(this);
-        mQuestionArrayList = new ArrayList<Question>();
+        mQuestionArrayList = new ArrayList<>();
         mAdapter.notifyDataSetChanged();
         // --- ここまで追加する ---
 
