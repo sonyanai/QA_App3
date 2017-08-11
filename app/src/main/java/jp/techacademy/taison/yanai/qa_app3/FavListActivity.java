@@ -19,7 +19,6 @@ import java.util.HashMap;
 public class FavListActivity extends AppCompatActivity {
 
 
-    private DatabaseReference mDatabaseReference;
     private ListView mListView;
     private ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
@@ -44,7 +43,13 @@ public class FavListActivity extends AppCompatActivity {
 
 
             // 質問のリストをクリアしてから再度Adapterにセットし、AdapterをListViewにセットし直す
-            mQuestionArrayList.clear();
+            //mQuestionArrayList.clear();
+
+
+            /*
+            mAdapter.setQuestionArrayList(mQuestionArrayList);
+            mListView.setAdapter(mAdapter);
+            */
             mAdapter.setQuestionArrayList(mQuestionArrayList);
             mListView.setAdapter(mAdapter);
 
@@ -128,16 +133,6 @@ public class FavListActivity extends AppCompatActivity {
                     正しく理解して頂くために、onCreateに書いていただきましたので、その辺りはコメントとして書いておいてくださいね！*/
         //ここまで
 
-
-        // Firebase
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
-
-        // ListViewの準備
-        mListView = (ListView) findViewById(R.id.listView);
-        mAdapter = new QuestionsListAdapter(this);
-        mQuestionArrayList = new ArrayList<>();
-        mAdapter.notifyDataSetChanged();
-        // --- ここまで追加する ---
 
 
     }
