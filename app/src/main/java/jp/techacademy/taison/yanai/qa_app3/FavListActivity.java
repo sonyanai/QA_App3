@@ -2,6 +2,7 @@ package jp.techacademy.taison.yanai.qa_app3;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,10 +19,11 @@ public class FavListActivity extends AppCompatActivity {
 
 
     private DatabaseReference mDatabaseReference;
-    private DatabaseReference mGenreRef;
     private ListView mListView;
     private ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
+    private Toolbar mToolbar;
+
 
 
     //ここからお気に入りの一覧
@@ -34,6 +36,7 @@ public class FavListActivity extends AppCompatActivity {
             String questionid = (String) map.get("uuid");//データ構造が違かった
             favoriteList.add(questionid);*/
             String questionid = (String) dataSnapshot.getValue();
+
             favoriteList.add(questionid);
 
         }
@@ -69,6 +72,8 @@ public class FavListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fav_list);
 
 
+
+
         //お気に入り一覧
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -95,5 +100,7 @@ public class FavListActivity extends AppCompatActivity {
         mQuestionArrayList = new ArrayList<Question>();
         mAdapter.notifyDataSetChanged();
         // --- ここまで追加する ---
+
+
     }
 }

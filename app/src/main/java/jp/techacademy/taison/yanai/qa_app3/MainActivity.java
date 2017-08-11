@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
                     mToolbar.setTitle("コンピューター");
                     mGenre = 4;
                 } else if(id == R.id.nav_fav){
-                    mToolbar.setTitle("お気に入り");
+                    //mToolbar.setTitle("お気に入り");
                     mGenre = 5;
 
                 }
@@ -355,8 +355,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if(mGenre == 5){
-                    //qIdRef = mDatabaseReference.child(Const.ContentsPATH);
-                    //qIdRef.addChildEventListener(mEventListener);
+                    qIdRef = mDatabaseReference.child(Const.ContentsPATH);
+                    qIdRef.addChildEventListener(mEventListener);
                     Intent intent = new Intent(getApplicationContext(), FavListActivity.class);
                     startActivity(intent);
                 }else{
