@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mGenreRef;
     private DatabaseReference qIdRef;
     private ListView mListView;
-    public ArrayList<Question> mQuestionArrayList;
+    public static ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
 
     /*
