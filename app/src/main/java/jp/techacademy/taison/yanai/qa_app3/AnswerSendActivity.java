@@ -32,7 +32,7 @@ public class AnswerSendActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_send);
 
-        // 渡ってきたQuestionのオブジェクトを保持する
+        // intentで渡ってきたQuestionのオブジェクトを保持する
         Bundle extras = getIntent().getExtras();
         mQuestion = (Question) extras.get("question");
 
@@ -48,12 +48,15 @@ public class AnswerSendActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
+    //？？？
     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
         mProgress.setVisibility(ProgressBar.GONE);
 
         if (databaseError == null) {
+            //正常に送信できた時
             finish();
         } else {
+            //エラーが出たとき
             Snackbar.make(findViewById(android.R.id.content), "投稿に失敗しました", Snackbar.LENGTH_LONG).show();
         }
 
@@ -64,6 +67,7 @@ public class AnswerSendActivity extends AppCompatActivity implements View.OnClic
         // キーボードが出てたら閉じる
         InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         im.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        //ここまでキーボード
 
         DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference answerRef = dataBaseReference.child(Const.ContentsPATH).child(String.valueOf(mQuestion.getGenre())).child(mQuestion.getQuestionUid()).child(Const.AnswersPATH);

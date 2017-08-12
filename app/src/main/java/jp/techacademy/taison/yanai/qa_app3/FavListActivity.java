@@ -20,24 +20,40 @@ public class FavListActivity extends AppCompatActivity {
 
 
     private ListView mListView;
-    private ArrayList<Question> mQuestionArrayList;
+    //private ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
 
 
     //ここからお気に入りの一覧
     private ArrayList<String> favoriteList;
     DatabaseReference favoriteRef;
+
+
     private ChildEventListener mEventListenerFav = new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            /*HashMap map = (HashMap) dataSnapshot.getValue();
-            String questionid = (String) map.get("uuid");//データ構造が違かった
-            favoriteList.add(questionid);*/
+            //HashMap map = (HashMap) dataSnapshot.getValue();
+
+
+
             String questionid = (String) dataSnapshot.getValue();
-            /*String title = (String) dataSnapshot.get("title");
-            String body = (String) dataSnapshot.get("body");
-            String name = (String) dataSnapshot.get("name");
-            String uid = (String) dataSnapshot.get("uid");*/
+
+
+
+            /*for(Question question : favoriteList){
+                    if(questionid.equals()){
+
+
+                    }
+            }*/
+
+
+
+
+            /*String title = (String) map.get("title");
+            String body = (String) map.get("body");
+            String name = (String) map.get("name");
+            String uid = (String) map.get("uid");*/
 
             favoriteList.add(questionid);
 
@@ -46,11 +62,8 @@ public class FavListActivity extends AppCompatActivity {
             //mQuestionArrayList.clear();
 
 
-            /*
-            mAdapter.setQuestionArrayList(mQuestionArrayList);
-            mListView.setAdapter(mAdapter);
-            */
-            mAdapter.setQuestionArrayList(mQuestionArrayList);
+
+            mAdapter.setQuestionArrayList(MainActivity.mQuestionArrayList);
             mListView.setAdapter(mAdapter);
 
 
@@ -58,8 +71,10 @@ public class FavListActivity extends AppCompatActivity {
 
         }
 
+
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            /*
             HashMap map = (HashMap) dataSnapshot.getValue();
 
             // 変更があったQuestionを探す
@@ -81,7 +96,7 @@ public class FavListActivity extends AppCompatActivity {
 
                     mAdapter.notifyDataSetChanged();
                 }
-            }
+            }*/
 
         }
 
@@ -125,7 +140,7 @@ public class FavListActivity extends AppCompatActivity {
         DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
 
         favoriteList = new ArrayList<String>();
-        favoriteList.clear();
+        //favoriteList.clear();
 
         favoriteRef = dataBaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
         favoriteRef.addChildEventListener(mEventListenerFav);
