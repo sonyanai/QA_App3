@@ -19,6 +19,18 @@ public class Question implements Serializable {
     private ArrayList<Answer> mAnswerArrayList;//Firebaseから取得した質問のモデルクラスであるAnswerのArrayList
 
 
+    public Question(String title, String body, String name, String uid, String questionUid, int genre, byte[] bytes, ArrayList<Answer> answers) {
+        mTitle = title;
+        mBody = body;
+        mName = name;
+        mUid = uid;
+        mQuestionUid = questionUid;
+        mGenre = genre;
+        mBitmapArray = bytes.clone();
+        mAnswerArrayList = answers;
+    }
+
+
 
     //Firebaseから質問のTitleを取得してmTitleに入れて返す
     public String getTitle() {
@@ -64,15 +76,4 @@ public class Question implements Serializable {
         return mAnswerArrayList;
     }
 
-    //なんでこのメソッド？が一番下なんだ？？？
-    public Question(String title, String body, String name, String uid, String questionUid, int genre, byte[] bytes, ArrayList<Answer> answers) {
-        mTitle = title;
-        mBody = body;
-        mName = name;
-        mUid = uid;
-        mQuestionUid = questionUid;
-        mGenre = genre;
-        mBitmapArray = bytes.clone();
-        mAnswerArrayList = answers;
-    }
 }

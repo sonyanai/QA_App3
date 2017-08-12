@@ -50,6 +50,7 @@ public class FavListActivity extends AppCompatActivity {
 
 
 
+
             /*String title = (String) map.get("title");
             String body = (String) map.get("body");
             String name = (String) map.get("name");
@@ -61,8 +62,7 @@ public class FavListActivity extends AppCompatActivity {
             // 質問のリストをクリアしてから再度Adapterにセットし、AdapterをListViewにセットし直す
             //mQuestionArrayList.clear();
 
-
-
+            //MainActivity.mQuestionArrayList = new ArrayList<Question>();
             mAdapter.setQuestionArrayList(MainActivity.mQuestionArrayList);
             mListView.setAdapter(mAdapter);
 
