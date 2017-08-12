@@ -130,6 +130,9 @@ public class FavListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav_list);
 
+
+
+
         //Adapterの初期化,ListViewも初期化
         mAdapter = new QuestionsListAdapter(FavListActivity.this);
         mListView = (ListView) findViewById(R.id.fListView);
@@ -144,8 +147,16 @@ public class FavListActivity extends AppCompatActivity {
 
         DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
 
+
+
+
+
+
         favoriteList = new ArrayList<String>();
         //favoriteList.clear();
+
+
+
 
         favoriteRef = dataBaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
         favoriteRef.addChildEventListener(mEventListenerFav);
@@ -153,6 +164,12 @@ public class FavListActivity extends AppCompatActivity {
                     正しく理解して頂くために、onCreateに書いていただきましたので、その辺りはコメントとして書いておいてくださいね！*/
         //ここまで
 
+
+        //Adapterの初期化,ListViewも初期化137,8->
+        /*mAdapter = new QuestionsListAdapter(FavListActivity.this);
+        mListView = (ListView) findViewById(R.id.fListView);
+        MainActivity.mQuestionArrayList = new ArrayList<Question>();
+        mAdapter.notifyDataSetChanged();*/
 
 
     }
