@@ -58,13 +58,14 @@ public class FavListActivity extends AppCompatActivity {
 
             favoriteList.add(questionid);
 
-
             // 質問のリストをクリアしてから再度Adapterにセットし、AdapterをListViewにセットし直す
             //mQuestionArrayList.clear();
+            //Adapterの初期化
 
             //MainActivity.mQuestionArrayList = new ArrayList<Question>();
             mAdapter.setQuestionArrayList(MainActivity.mQuestionArrayList);
             mListView.setAdapter(mAdapter);
+            //mAdapter.notifyDataSetChanged();
 
 
 
@@ -128,6 +129,10 @@ public class FavListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fav_list);
+
+        //Adapterの初期化,ListViewも初期化
+        mAdapter = new QuestionsListAdapter(FavListActivity.this);
+        mListView = (ListView) findViewById(R.id.fListView);
 
 
 
