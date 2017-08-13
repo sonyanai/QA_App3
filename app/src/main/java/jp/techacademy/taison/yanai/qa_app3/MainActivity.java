@@ -41,42 +41,53 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
 
-    /*
-    //ここからお気に入りの一覧
-    private ArrayList<String> favoriteList;
-    DatabaseReference favoriteRef;
-    private ChildEventListener mEventListenerFav = new ChildEventListener() {
+
+
+
+    private ChildEventListener qEventListener = new ChildEventListener() {
         @Override
+        //要素(質問)が追加されたときに呼ばれるメソッド
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            /*HashMap map = (HashMap) dataSnapshot.getValue();
-            String questionid = (String) map.get("uuid");//データ構造が違かった
-            favoriteList.add(questionid);*/
-            /*String questionid = (String) dataSnapshot.getValue();
-            favoriteList.add(questionid);
+            //これは、Firebaseのデータ構造がkey-value形式になっているので、
+            // getValue()でその形式のデータ本体を取り出しているという意味になります。
+            HashMap map = (HashMap) dataSnapshot.getValue();
+            String allQuestion = (String) map.get("mQuestionUid");
+            //mQuestionArrayListに質問を追加する
+            //アダプタが内部で管理しているデータに変更が生じた後に、
+            // アダプターを通じて ListView に再描画を促している
+            mAdapter.notifyDataSetChanged();
+
 
         }
         @Override
+        //要素に変化があった時,今回は質問に対して回答が投稿された時に呼ばれる
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
         }
-
         @Override
+        //リスト内のアイテムに対する変更がないかリッスンします。onChildAdded()や
+        //onChildRemoved() と併用して、リストに対する変更をモニタリングします
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+            //中身は？？メソッド自体にすでに意味がある？
         }
 
         @Override
+        //リストから削除されるアイテムがないかリッスンします。onChildAdded() や
+        // onChildChanged() と併用して、リストに対する変更をモニタリングします。
         public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
         }
 
         @Override
+        //onCancelledは通信に失敗したり、データを読み書きするのに失敗したときに呼ばれるメソッド
         public void onCancelled(DatabaseError databaseError) {
 
         }
     };
-    //ここまでお気に入り
-    */
+
+
+
+
+
 
 
     //データに追加・変化があった時に受け取るリスナー
@@ -93,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             String body = (String) map.get("body");
             String name = (String) map.get("name");
             String uid = (String) map.get("uid");
+            String allQuestion = (String) map.get("mQuestionUid");
             //ここも同様だけどここでとってきた値は人間には意味不明な文字列で
             //この下のif文でそれを画像に変換している
             String imageString = (String) map.get("image");
@@ -106,6 +118,13 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 bytes = new byte[0];
             }
+
+            /*ArrayList<Question> allQuestionsArrayList = new ArrayList<Question>();
+            Question allQuestions = new Question();
+            allQuestionsArrayList.add(allQuestions);
+*/
+
+
 
             //新しいリストのanswerArrayListを宣言
             ArrayList<Answer> answerArrayList = new ArrayList<Answer>();
@@ -151,34 +170,27 @@ public class MainActivity extends AppCompatActivity {
             HashMap map = (HashMap) dataSnapshot.getValue();
 
             // 変更があったQuestionを探す
-            for (Question question : mQuestionArrayList) {
+            for (Question question: mQuestionArrayList) {
                 if (dataSnapshot.getKey().equals(question.getQuestionUid())) {
-                    // このアプリで変更がある可能性があるのは回答(Answer)のみだから
-                    //質問に対する回答のみ再読み込みするために削除
+                    // このアプリで変更がある可能性があるのは回答(Answer)のみ
                     question.getAnswers().clear();
-                    //なんでまた？？
-                    //再読み込み？
                     HashMap answerMap = (HashMap) map.get("answers");
                     if (answerMap != null) {
                         for (Object key : answerMap.keySet()) {
-                            //3度目???
                             HashMap temp = (HashMap) answerMap.get((String) key);
-                            //key-value形式のデータのkeyを指定して、(String型にして)データの中身を取っている
                             String answerBody = (String) temp.get("body");
                             String answerName = (String) temp.get("name");
                             String answerUid = (String) temp.get("uid");
-                            //AnswerクラスのanswerにanswerBody, answerName, answerUid, (String) keyを渡す
                             Answer answer = new Answer(answerBody, answerName, answerUid, (String) key);
-                            //質問に対する回答を取得してそこに回答を追加
-                            //Firebase からやってきた回答を Question クラスのインスタンスに保管している
                             question.getAnswers().add(answer);
                         }
                     }
-                    //アダプタが内部で管理しているデータに変更が生じた後に、
-                    // アダプターを通じて ListView に再描画を促している
+
                     mAdapter.notifyDataSetChanged();
                 }
             }
+
+
         }
 
 
@@ -356,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(mGenre == 5){
                     qIdRef = mDatabaseReference.child(Const.ContentsPATH);
-                    qIdRef.addChildEventListener(mEventListener);
+                    qIdRef.addChildEventListener(qEventListener);
                     Intent intent = new Intent(getApplicationContext(), FavListActivity.class);
                     startActivity(intent);
                 }else{
