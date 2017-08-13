@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference qIdRef;
     private ListView mListView;
     public static ArrayList<Question> mQuestionArrayList;
+    public static ArrayList<String> allQuestionsArrayList;
     private QuestionsListAdapter mAdapter;
 
 
@@ -50,8 +51,11 @@ public class MainActivity extends AppCompatActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体を取り出しているという意味になります。
-            HashMap map = (HashMap) dataSnapshot.getValue();
-            String allQuestion = (String) map.get("mQuestionUid");
+            HashMap<String, Object> map = (HashMap) dataSnapshot.getValue();
+            for (String key : map.keySet()) {
+                allQuestionsArrayList.add(key);
+            }
+
             //mQuestionArrayListに質問を追加する
             //アダプタが内部で管理しているデータに変更が生じた後に、
             // アダプターを通じて ListView に再描画を促している

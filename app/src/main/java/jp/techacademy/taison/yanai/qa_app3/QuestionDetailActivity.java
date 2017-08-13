@@ -189,11 +189,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 if (user != null) {
                     // User is signed in
                     String uid = user.getUid();
-                } /*else {
-                    // No user is signed in
-                }*/
-                //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                //FirebaseUser user = mAuth.getInstance().getCurrentUser();
+                }
 
                 //MainActivityでmQuestionArrayListをsta ticで宣言しているからMainActivity.mQuestionArrayListで
                 //MainActivityで使ってるmQuestionArrayListをひっぱってこれる！
@@ -203,12 +199,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
                 mQuestionUid = qObject.getQuestionUid();
                 //そのobject(質問)の質問idを取得
-
-
-
-
-
-
 
 
                 //firebaseのデータ構造のトップから，Const.FavPATH -> user.getUid() -> mQuestion.getQuestionUid()とデータ構造ツリーを辿り，その位置を示すリファレンスを取得しています．
@@ -240,11 +230,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
 
 
-
-
-                //DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
-                //DatabaseReference answerRef = dataBaseReference.child(Const.ContentsPATH).child(String.valueOf(mQuestion.getGenre())).child(mQuestion.getQuestionUid()).child(Const.AnswersPATH);*/
-            }
+  }
         });
     }
 }
