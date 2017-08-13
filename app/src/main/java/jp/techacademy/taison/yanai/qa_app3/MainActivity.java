@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference qIdRef;
     private ListView mListView;
     public static ArrayList<Question> mQuestionArrayList;
-    public static ArrayList<String> allQuestionsArrayList;
+    public static ArrayList<Question> allQuestionsArrayList;
     private QuestionsListAdapter mAdapter;
 
 
@@ -49,11 +49,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         //要素(質問)が追加されたときに呼ばれるメソッド
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            ArrayList<Question> allQuestionsArrayList = new ArrayList<Question>();
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体を取り出しているという意味になります。
             HashMap<String, Object> map = (HashMap) dataSnapshot.getValue();
             for (String key : map.keySet()) {
-                allQuestionsArrayList.add(key);
+                Question question = (Question) map.get(key);
+                allQuestionsArrayList.add(question);
             }
 
             //mQuestionArrayListに質問を追加する

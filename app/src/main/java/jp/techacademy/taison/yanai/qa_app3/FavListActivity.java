@@ -15,10 +15,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 public class FavListActivity extends AppCompatActivity {
     private ListView mListView;
-    //private ArrayList<Question> mQuestionArrayList;
     private QuestionsListAdapter mAdapter;
     private ArrayList<String> favoriteList;
-    private int mGenre = 5;
+    //private int mGenre = 5;
     DatabaseReference favoriteRef;
     private ChildEventListener mEventListenerFav = new ChildEventListener() {
         @Override
@@ -29,12 +28,33 @@ public class FavListActivity extends AppCompatActivity {
             //HashMap map = (HashMap) dataSnapshot.getValue();
 
 
-
             String questionid = (String) dataSnapshot.getValue();
-            /*for(Question question : favoriteList){
-                    if(questionid.equals()){
+
+
+            /*for(String favoriteQuestionId : favoriteList){
+                for (Question question :MainActivity.allQuestions){
+                    if (favoriteQuestionId == question.getUid()){
+                        // お気に入りに含まれているIDの場合
                     }
+                }
             }*/
+
+            HashMap<String, Object> map = (HashMap) dataSnapshot.getValue();
+
+
+
+
+
+
+
+            for(String favoriteQuestionId : favoriteList) {
+                for (Question question : MainActivity.allQuestionsArrayList) {
+                    if (favoriteQuestionId == question.getQuestionUid()) {
+                        // お気に入りに含まれているIDの場合
+                    }
+                }
+            }
+
 
 
 
@@ -83,7 +103,7 @@ public class FavListActivity extends AppCompatActivity {
             // 質問のリストをクリアしてから再度Adapterにセットし、AdapterをListViewにセットし直す
             //mQuestionArrayList.clear();
             //Adapterの初期化
-            mAdapter.setQuestionArrayList(MainActivity.mQuestionArrayList);
+            mAdapter.setQuestionArrayList(MainActivity.allQuestionsArrayList);
             mListView.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
         }
