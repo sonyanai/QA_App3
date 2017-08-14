@@ -33,7 +33,11 @@ public class QuestionsListAdapter extends BaseAdapter{
     @Override
     //mQuestionArrayListに入っている質問の総数を取得
     public int getCount() {
-        return mQuestionArrayList.size();
+        if(mQuestionArrayList == null){
+            return 0;
+        }else{
+            return mQuestionArrayList.size();
+        }
     }
 
     @Override

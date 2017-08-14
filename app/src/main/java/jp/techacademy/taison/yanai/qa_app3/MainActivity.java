@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,6 +43,16 @@ public class MainActivity extends AppCompatActivity {
     public static ArrayList<Question> mQuestionArrayList;
     public static ArrayList<Question> allQuestionsArrayList;
     private QuestionsListAdapter mAdapter;
+    public String title;
+    public String name;
+    public String body;
+    public String uid;
+    public String questionUid;
+    public int genre;
+    public byte[] bytes;
+    public ArrayList<Answer> answers;
+
+
 
 
 
@@ -53,8 +65,39 @@ public class MainActivity extends AppCompatActivity {
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体を取り出しているという意味になります。
             HashMap<String, Object> map = (HashMap) dataSnapshot.getValue();
+            Log.d("debug", map.toString());
             for (String key : map.keySet()) {
-                Question question = (Question) map.get(key);
+                Iterator iter = map.keySet().iterator();
+                while (iter.hasNext()) {
+                    key = (String) iter.next();
+                    //Object型からHashMap型にキャストしていますよ
+                    HashMap value = (HashMap) map.get(key);
+                    Log.d("debug", key + " = " + value);
+                }
+
+                /*while(iter.hasNext()){
+                    key = (String)iter.next();
+                    //Object型からHashMap型にキャストしていますよ
+                    HashMap value = (HashMap) map.get(key);
+                    Log.d("debug", key + " = " + value);
+                }*/
+
+                // (1) map の中に "title" というキーで保管されているデータを取り出す。
+                // (2) そのデータの実体は、String型なので、キャストをすることによって、Javaにその事実を教えてあげている。
+                // (3) question というインスタンスの中にある title という変数に (2) のデータをセットしている。
+                title = (String) map.get("title");
+                name = (String) map.get("name");
+                body = (String) map.get("body");
+                uid = (String) map.get("uid");
+                String imageString = (String) map.get("image");
+                byte[] bytes;
+                if (imageString != null) {
+                    bytes = Base64.decode(imageString, Base64.DEFAULT);
+                } else {
+                    bytes = new byte[0];
+                }
+                //Question question = (Question) map.get(key);
+                Question question = new Question(title, body, name, uid, questionUid, genre, bytes, answers);
                 allQuestionsArrayList.add(question);
             }
 
@@ -62,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
             //アダプタが内部で管理しているデータに変更が生じた後に、
             // アダプターを通じて ListView に再描画を促している
             mAdapter.notifyDataSetChanged();
-
-
         }
         @Override
         //要素に変化があった時,今回は質問に対して回答が投稿された時に呼ばれる
@@ -346,15 +387,7 @@ public class MainActivity extends AppCompatActivity {
                 drawer.closeDrawer(GravityCompat.START);
 
 
-                /*private ArrayList<String> favoriteList;
-                private ChildEventListener mEventListenerFav = new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        HashMap map = (HashMap) dataSnapshot.getValue();
-                        String questionid = (String) map.get("uuid");
-                        favoriteList.add(questionid);
-                    }
-                };*/
+
 
 
                 // 質問のリストをクリアしてから再度Adapterにセットし、
@@ -442,7 +475,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
 
-        favoriteList = new ArrayList<String>();
+        favoriteList = new ArrayList<Question>();
         favoriteList.clear();
 
         favoriteRef = dataBaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
