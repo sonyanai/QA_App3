@@ -21,7 +21,9 @@ public class QuestionsListAdapter extends BaseAdapter{
     //mLayoutInflaterを宣言，定義
     private LayoutInflater mLayoutInflater = null;
     //Questionを入れたArrayListであるmQuestionArrayListを定義
+    //ここだとQuestionsListAdapterが初期化されるタイミングで初期化される
     private ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
+    private ArrayList<Answer> mAnswerArrayList = new ArrayList<Answer>();
 
     //リスナーの登録
     public QuestionsListAdapter(Context context) {
@@ -78,18 +80,13 @@ public class QuestionsListAdapter extends BaseAdapter{
         TextView resText = (TextView) convertView.findViewById(R.id.resTextView);
         //resNumにmQuestionArrayListから取得したpositionのgetAnswersの数を渡す
 
+
         if(mQuestionArrayList.size() != 0){
+            //質問に対する回答(res)の数を取得
             int resNum = mQuestionArrayList.get(position).getAnswers().size();
             //resNumをint型からString型に直してresTextに渡す
             resText.setText(String.valueOf(resNum));
         }
-        //int resNum = mQuestionArrayList.get(position).getAnswers().size();
-
-
-
-        //resNumをint型からString型に直してresTextに渡す
-        //resText.setText(String.valueOf(resNum));
-
         //byte[]のbytesにmQuestionArrayListから取得したpositionのImageBytesを取得して渡す
         byte[] bytes = mQuestionArrayList.get(position).getImageBytes();
         //bytesの文字数が0でなかった時の処理
@@ -107,6 +104,12 @@ public class QuestionsListAdapter extends BaseAdapter{
         }
         //convertViewがnullの場合に、生成したViewをconvertViewにいれているので返す必要があります
         return convertView;
+    }
+
+
+    public void setAnswerArrayList(ArrayList<Answer> answerArrayList) {
+        //questionArrayListってどっからきたん？？setQuestionArrayList()の引数???
+        mAnswerArrayList = answerArrayList;
     }
     //上で作ったやつをメソッドにしてどこからでも呼び出せるようにしている
     public void setQuestionArrayList(ArrayList<Question> questionArrayList) {
