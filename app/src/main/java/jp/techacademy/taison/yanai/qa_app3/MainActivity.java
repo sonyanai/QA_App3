@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         //要素(質問)が追加されたときに呼ばれるメソッド
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            //新しいArrayListのallQuestionsArrayListを作成，初期化
             ArrayList<Question> allQuestionsArrayList = new ArrayList<Question>();
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体を取り出しているという意味になります。
@@ -74,13 +75,6 @@ public class MainActivity extends AppCompatActivity {
                     HashMap value = (HashMap) map.get(key);
                     Log.d("debug", key + " = " + value);
                 }
-
-                /*while(iter.hasNext()){
-                    key = (String)iter.next();
-                    //Object型からHashMap型にキャストしていますよ
-                    HashMap value = (HashMap) map.get(key);
-                    Log.d("debug", key + " = " + value);
-                }*/
 
                 // (1) map の中に "title" というキーで保管されているデータを取り出す。
                 // (2) そのデータの実体は、String型なので、キャストをすることによって、Javaにその事実を教えてあげている。
@@ -165,11 +159,6 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 bytes = new byte[0];
             }
-
-            /*ArrayList<Question> allQuestionsArrayList = new ArrayList<Question>();
-            Question allQuestions = new Question();
-            allQuestionsArrayList.add(allQuestions);
-*/
 
 
 

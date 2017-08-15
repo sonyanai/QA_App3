@@ -97,14 +97,20 @@ public class FavListActivity extends AppCompatActivity {
         //お気に入り一覧
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
+        //favoriteListというArrayListを作る
         favoriteList = new ArrayList<String>();
+        //mAdapterの作成
         mAdapter = new QuestionsListAdapter(FavListActivity.this);
+        //mListViewの作成
         mListView = (ListView) findViewById(R.id.fListView);
+        //mAdapterに変化があったら通知する
         mAdapter.notifyDataSetChanged();
         //favoriteList.clear();
         DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
+        //Favの中のuidにfavoriteRefという領域を作る
         favoriteRef = dataBaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
+        //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
         favoriteRef.addChildEventListener(mEventListenerFav);
-                      //ここまで
+        //ここまで
     }
 }
