@@ -50,7 +50,7 @@ public class Question implements Serializable {
     //あとで使うと思います。
     // Questionオブジェクトの質問IDを取得しないといけませんよね。
     //Firebaseから質問者のUidを取得してmUidに入れて返す
-    public String getUid() {
+    public String getId() {
         return mUid;
     }
 
