@@ -40,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mGenreRef;
     private DatabaseReference qIdRef;
     private ListView mListView;
-    public static ArrayList<Question> mQuestionArrayList;
-    public static ArrayList<Question> allQuestionsArrayList;
+    public static ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
+    public static ArrayList<Question> allQuestionsArrayList = new ArrayList<Question>();
+    private ArrayList<Answer> answerArrayList = new ArrayList<Answer>();
     private QuestionsListAdapter mAdapter;
     public String title;
     public String name;
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         //要素(質問)が追加されたときに呼ばれるメソッド
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             //新しいArrayListのallQuestionsArrayListを作成，初期化
-            ArrayList<Question> allQuestionsArrayList = new ArrayList<Question>();
+            //ArrayList<Question> allQuestionsArrayList = new ArrayList<Question>();
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体を取り出しているという意味になります。
             HashMap<String, Object> map = (HashMap) dataSnapshot.getValue();
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
 
             //新しいリストのanswerArrayListを宣言
-            ArrayList<Answer> answerArrayList = new ArrayList<Answer>();
+            //ArrayList<Answer> answerArrayList = new ArrayList<Answer>();
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体(answers)を取り出しているという意味になります。
             HashMap answerMap = (HashMap) map.get("answers");
@@ -379,19 +380,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                // 質問のリストをクリアしてから再度Adapterにセットし、
-                // AdapterをListViewにセットし直す
-               /* mQuestionArrayList.clear();
-                mAdapter.setQuestionArrayList(mQuestionArrayList);
-                mListView.setAdapter(mAdapter);*/
-                /*FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                String mQuestionUid;
-                int position = 0;
-                Question qObject = mQuestionArrayList.get(position);
-                mQuestionUid = qObject.getQuestionUid();*/
-
-
-
 
 
                 if(mGenre == 5){
@@ -438,8 +426,6 @@ public class MainActivity extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.listView);
         //新しいQuestionsListAdapterをmAdapterとする
         mAdapter = new QuestionsListAdapter(this);
-        //この行の意味は？
-        mQuestionArrayList = new ArrayList<Question>();
         //アダプタが内部で管理しているデータに変更が生じた後に、
         // アダプターを通じて ListView に再描画を促している
         mAdapter.notifyDataSetChanged();

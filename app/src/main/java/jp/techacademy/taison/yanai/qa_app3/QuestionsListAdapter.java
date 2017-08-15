@@ -21,7 +21,7 @@ public class QuestionsListAdapter extends BaseAdapter{
     //mLayoutInflaterを宣言，定義
     private LayoutInflater mLayoutInflater = null;
     //Questionを入れたArrayListであるmQuestionArrayListを定義
-    private ArrayList<Question> mQuestionArrayList;
+    private ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
 
     //リスナーの登録
     public QuestionsListAdapter(Context context) {
@@ -77,9 +77,18 @@ public class QuestionsListAdapter extends BaseAdapter{
 
         TextView resText = (TextView) convertView.findViewById(R.id.resTextView);
         //resNumにmQuestionArrayListから取得したpositionのgetAnswersの数を渡す
-        int resNum = mQuestionArrayList.get(position).getAnswers().size();
+
+        if(mQuestionArrayList.size() != 0){
+            int resNum = mQuestionArrayList.get(position).getAnswers().size();
+            //resNumをint型からString型に直してresTextに渡す
+            resText.setText(String.valueOf(resNum));
+        }
+        //int resNum = mQuestionArrayList.get(position).getAnswers().size();
+
+
+
         //resNumをint型からString型に直してresTextに渡す
-        resText.setText(String.valueOf(resNum));
+        //resText.setText(String.valueOf(resNum));
 
         //byte[]のbytesにmQuestionArrayListから取得したpositionのImageBytesを取得して渡す
         byte[] bytes = mQuestionArrayList.get(position).getImageBytes();

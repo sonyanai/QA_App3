@@ -16,7 +16,7 @@ public class Question implements Serializable {
     private String mQuestionUid;//Firebaseから取得した質問のUID
     private int mGenre;//質問のジャンル
     private byte[] mBitmapArray;//Firebaseから取得した画像をbyte型の配列にしたもの
-    private ArrayList<Answer> mAnswerArrayList;//Firebaseから取得した質問のモデルクラスであるAnswerのArrayList
+    private ArrayList<Answer> mAnswerArrayList= new ArrayList<Answer>();;//Firebaseから取得した質問のモデルクラスであるAnswerのArrayList
 
 
     public Question(String title, String body, String name, String uid, String questionUid, int genre, byte[] bytes, ArrayList<Answer> answers) {
