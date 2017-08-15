@@ -18,7 +18,7 @@ public class FavListActivity extends AppCompatActivity {
     private QuestionsListAdapter mAdapter;
     private ArrayList<String> favoriteList;
     static ArrayList<Question> favList;
-    private int mGenre = 5;
+    private int mGenre;
     DatabaseReference favoriteRef;
     private ChildEventListener mEventListenerFav = new ChildEventListener() {
         @Override
