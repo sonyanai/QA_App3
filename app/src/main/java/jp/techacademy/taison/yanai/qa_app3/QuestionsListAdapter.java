@@ -23,7 +23,6 @@ public class QuestionsListAdapter extends BaseAdapter{
     //Questionを入れたArrayListであるmQuestionArrayListを定義
     //ここだとQuestionsListAdapterが初期化されるタイミングで初期化される
     private ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
-    private ArrayList<Answer> mAnswerArrayList = new ArrayList<Answer>();
 
     //リスナーの登録
     public QuestionsListAdapter(Context context) {
@@ -54,6 +53,12 @@ public class QuestionsListAdapter extends BaseAdapter{
     public long getItemId(int position) {
         return position;
     }
+
+
+
+
+
+
 
     @Override
     //リスト用に自分で作成したレイアウト
@@ -107,10 +112,7 @@ public class QuestionsListAdapter extends BaseAdapter{
     }
 
 
-    public void setAnswerArrayList(ArrayList<Answer> answerArrayList) {
-        //questionArrayListってどっからきたん？？setQuestionArrayList()の引数???
-        mAnswerArrayList = answerArrayList;
-    }
+
     //上で作ったやつをメソッドにしてどこからでも呼び出せるようにしている
     public void setQuestionArrayList(ArrayList<Question> questionArrayList) {
         //questionArrayListってどっからきたん？？setQuestionArrayList()の引数???

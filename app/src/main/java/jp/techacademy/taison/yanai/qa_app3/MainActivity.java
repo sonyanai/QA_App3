@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     // --- ここから ---
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mGenreRef;
+    private DatabaseReference contentsRef;
     private DatabaseReference qIdRef;
     private ListView mListView;
     public static ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
@@ -395,9 +396,14 @@ public class MainActivity extends AppCompatActivity {
                 }else{
                     // 質問のリストをクリアしてから再度Adapterにセットし、
                     // AdapterをListViewにセットし直す
-                    Question question = (Question) map.get(question);
+
+
+
+
                     mQuestionArrayList.clear();
-                    mQuestionArrayList.add(question);
+                    /*contentsRef = mDatabaseReference.child(Const.ContentsPATH);
+                    contentsRef.addChildEventListener(mEventListener);
+                    mQuestionArrayList.add(question);*/
                     mAdapter.setQuestionArrayList(mQuestionArrayList);
                     mListView.setAdapter(mAdapter);
                     // 選択したジャンルにリスナーを登録する
