@@ -16,8 +16,7 @@ import java.util.HashMap;
 public class FavListActivity extends AppCompatActivity {
     private ListView mListView;
     private QuestionsListAdapter mAdapter;
-    private ArrayList<String> favoriteList;
-    static ArrayList<String> favList = new ArrayList<String>();
+    //public static ArrayList<String> favList = new ArrayList<String>();
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mGenreRef;
     public static ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
@@ -92,14 +91,14 @@ public class FavListActivity extends AppCompatActivity {
 
 
             //ここで一致してるか確認す
-            for( String matchQuestion : favList){
-                if(question.getQuestionUid().equals(favList)){
+            for( String matchQuestion : MainActivity.favList){
+                if(question.getQuestionUid().equals(MainActivity.favList)){
                     //mQuestionArrayListに質問を追加する
                     mQuestionArrayList.add(question);
                     //アダプタが内部で管理しているデータに変更が生じた後に、
                     // アダプターを通じて ListView に再描画を促している
                     mAdapter.notifyDataSetChanged();
-                    }
+                }
             }
 
             //mQuestionArrayList.clear();
@@ -188,6 +187,8 @@ public class FavListActivity extends AppCompatActivity {
 
 
 
+    //mEventListenerと同期させるためにMainActivityに移動60くらい
+    /*
     DatabaseReference favoriteRef;
     private ChildEventListener mEventListenerFav = new ChildEventListener() {
         @Override
@@ -213,6 +214,9 @@ public class FavListActivity extends AppCompatActivity {
         public void onCancelled(DatabaseError databaseError) {
         }
     };
+    */
+
+
 
 
 
@@ -238,10 +242,21 @@ public class FavListActivity extends AppCompatActivity {
         //mAdapter.notifyDataSetChanged();
         //favoriteList.clear();
 
+
+
+
+
+        ///ここから
+        /*
         //Favの中のuidにfavoriteRefという領域を作る
         favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
         //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
         favoriteRef.addChildEventListener(mEventListenerFav);
+        */
+        ///ここまでMainActivity350
+
+
+
 
 
 

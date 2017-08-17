@@ -53,6 +53,43 @@ public class MainActivity extends AppCompatActivity {
     public int genre;
     public byte[] bytes;
     public ArrayList<Answer> answers;
+    public static ArrayList<String> favList = new ArrayList<String>();
+
+
+
+
+    //     LoginActivityに移動wwwwwww
+    DatabaseReference favoriteRef;
+    private ChildEventListener mEventListenerFav = new ChildEventListener() {
+        @Override
+        //FavRefにはいってるmQuestionUidを1つずつ表示している
+        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            String questionId = (String) dataSnapshot.getValue();
+            favList.add(questionId);
+
+
+
+        }
+        @Override
+        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+        }
+        @Override
+        public void onChildRemoved(DataSnapshot dataSnapshot) {
+        }
+        @Override
+        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+        }
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+        }
+    };
+    //ここまでFavListActivityから引っ張ってきた
+
+
+
+
+
 
 
 
@@ -131,8 +168,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
     //データに追加・変化があった時に受け取るリスナー
     //一番最初に更新したい！！
     private ChildEventListener mEventListener = new ChildEventListener() {
@@ -162,16 +197,8 @@ public class MainActivity extends AppCompatActivity {
                 bytes = new byte[0];
             }
 
-
-
             //新しいリストのanswerArrayListを宣言
             answerArrayList = new ArrayList<Answer>();
-
-
-
-
-
-
 
 
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
@@ -299,6 +326,20 @@ public class MainActivity extends AppCompatActivity {
 
                 // ログイン済みのユーザーを取得する
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
+                //     LoginActivityに移動wwwww
+                //ここでfavoriteListを取得してintentのputExtraLesson5-6.2でFavListActivity.javaに渡す
+                if(user != null){
+
+                    //Favの中のuidにfavoriteRefという領域を作る
+                    favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
+                    //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
+                    favoriteRef.addChildEventListener(mEventListenerFav);
+                }
+
+
 
                 if (user == null) {
                     // ログインしていなければログイン画面に遷移させる

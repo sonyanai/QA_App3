@@ -167,24 +167,24 @@ public class QuestionDetailActivity extends AppCompatActivity {
         //宣言　UIのインスタンスをメンバ変数に保持する
         final Button mButton = (Button)findViewById(R.id.fav_button);
         //リスナーの登録
-        mButton.setOnClickListener(new View.OnClickListener() {
+        mButton.setOnClickListener(new View.OnClickListener() {//ここの時点でmButtonがnullになっている
             @Override
             public void onClick(View v) {
                 //この状態を保存したい
                 mButton.setBackgroundColor(rgb(0,100,200));
-
-
-                FirebaseAuth mAuth;//宣言
-                DatabaseReference mDataBaseReference;//宣言
-                //mQuestionArrayList = new ArrayList<Question>();//リストを定義
-
-
-                mAuth = FirebaseAuth.getInstance();//authorを定義
+                FirebaseAuth mAuth;
+                DatabaseReference mDataBaseReference;
+                //mQuestionArrayList = new ArrayList<Question>();
+                // リストを作成，初期化
+                mAuth = FirebaseAuth.getInstance();
+                //authorを定義
                 String mQuestionUid;
+                //String型のmQuestionUidを宣言
 
-
-                mDataBaseReference = FirebaseDatabase.getInstance().getReference();//authorの情報を取得
-                FirebaseUser user = mAuth.getCurrentUser();//現在ログインしているアカウントauthorをuserとする
+                mDataBaseReference = FirebaseDatabase.getInstance().getReference();
+                //authorの情報を取得
+                FirebaseUser user = mAuth.getCurrentUser();
+                //現在ログインしているアカウントauthorをuserとする
                 //uidにユーザーidを渡す
                 if (user != null) {
                     // User is signed in
@@ -229,8 +229,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
 
 
-
-  }
+            }
         });
     }
 }

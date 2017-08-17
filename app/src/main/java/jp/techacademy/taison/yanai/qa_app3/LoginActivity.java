@@ -1,6 +1,7 @@
 package jp.techacademy.taison.yanai.qa_app3;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
@@ -152,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                     mIsCreateAccount = true;
 
                     createAccount(email, password);
+
                 } else {
                     // エラーを表示する
                     Snackbar.make(v, "正しく入力してください", Snackbar.LENGTH_LONG).show();
@@ -181,6 +183,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     private void createAccount(String email, String password) {
