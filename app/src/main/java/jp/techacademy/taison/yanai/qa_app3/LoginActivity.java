@@ -125,6 +125,10 @@ public class LoginActivity extends AppCompatActivity {
                     mProgress.setVisibility(ProgressBar.GONE);
                 }
             }
+
+
+
+            //ここだ
         };
 
         // UIの準備

@@ -54,6 +54,30 @@ public class MainActivity extends AppCompatActivity {
     public byte[] bytes;
     public ArrayList<Answer> answers;
     public static ArrayList<String> favList = new ArrayList<String>();
+    //ログイン中か否かを保持する
+    public static boolean flag_login = false;
+
+    public void getFav()
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null){
+            // ログインフラグをonにする
+            this.flag_login = true;
+
+            //Favの中のuidにfavoriteRefという領域を作る
+            String user_id = "YuslctkK7TQXd1RxrgCFQgcF4wX2";
+            //favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
+            favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user_id));
+            //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
+            favoriteRef.addChildEventListener(mEventListenerFav);
+        } else {
+            // メニューにお気に入り一覧を表示させない。
+
+            // ログインフラグをオフにする
+            this.flag_login = false;
+        }
+    }
+
 
 
 
@@ -310,6 +334,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
+        getFav();
+
 
 
         //fabのリスナーの登録
@@ -332,20 +358,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                /*
-                //     LoginActivityに移動wwwww
-                //ここでfavoriteListを取得してintentのputExtraLesson5-6.2でFavListActivity.javaに渡す
-                if(user != null){
-
-                    //Favの中のuidにfavoriteRefという領域を作る
-                    favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
-                    //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
-                    favoriteRef.addChildEventListener(mEventListenerFav);
-                }
-                */
-
-
-
+                //質問を投稿しようとアクションバーを押したときの処理
                 if (user == null) {
                     // ログインしていなければログイン画面に遷移させる
                     //getApplicationContext()の意味は？
@@ -356,6 +369,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                 } else {
+                    //mGenre==5のときはintentでFavListActivityに飛ばす
                     if(mGenre == 5){
                         Intent intent = new Intent(getApplicationContext(), FavListActivity.class);
                         startActivity(intent);
@@ -405,6 +419,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem item) {
                 int id = item.getItemId();
 
+
+
+
+
                 if (id == R.id.nav_hobby) {
                     mToolbar.setTitle("趣味");
                     mGenre = 1;
@@ -438,7 +456,6 @@ public class MainActivity extends AppCompatActivity {
                 if(mGenre == 5){
                     qIdRef = mDatabaseReference.child(Const.ContentsPATH);
                     qIdRef.addChildEventListener(qEventListener);
-                    //     LoginActivityに移動wwwww
                     //ここでfavoriteListを取得してintentのputExtraLesson5-6.2でFavListActivity.javaに渡す
                     if(user != null){
 

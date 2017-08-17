@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class FavListActivity extends AppCompatActivity {
     private ListView mListView;
     private QuestionsListAdapter mAdapter;
-    private ArrayList<Question> mFavList = new ArrayList<Question>();
+    public static ArrayList<Question> mFavList = new ArrayList<Question>();
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mGenreRef;
     public static ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
@@ -53,13 +53,8 @@ public class FavListActivity extends AppCompatActivity {
                 bytes = new byte[0];
             }
 
-
-
             //新しいリストのanswerArrayListを宣言
             answerArrayList = new ArrayList<Answer>();
-
-
-
 
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体(answers)を取り出しているという意味になります。
@@ -153,8 +148,6 @@ public class FavListActivity extends AppCompatActivity {
                     mAdapter.notifyDataSetChanged();
                 }
             }
-
-
         }
 
 
@@ -193,39 +186,6 @@ public class FavListActivity extends AppCompatActivity {
 
 
 
-    //mEventListenerと同期させるためにMainActivityに移動60くらい
-    /*
-    DatabaseReference favoriteRef;
-    private ChildEventListener mEventListenerFav = new ChildEventListener() {
-        @Override
-        //FavRefにはいってるmQuestionUidを1つずつ表示している
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            String questionId = (String) dataSnapshot.getValue();
-            favList.add(questionId);
-
-
-
-        }
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        }
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-        }
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        }
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-        }
-    };
-    */
-
-
-
-
-
 
     //ここまでお気に入り
     @Override
@@ -234,6 +194,9 @@ public class FavListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fav_list);
         //Adapterの初期化,ListViewも初期化
         //お気に入り一覧
+
+
+
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -249,29 +212,8 @@ public class FavListActivity extends AppCompatActivity {
         //onCreate() の中で一回だけやれば良い処理です。
         mListView.setAdapter(mAdapter);
 
-        //mAdapterに変化があったら通知する
-        //mAdapter.notifyDataSetChanged();
-        //favoriteList.clear();
 
-
-
-
-
-        ///ここから
-        /*
-        //Favの中のuidにfavoriteRefという領域を作る
-        favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
-        //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
-        favoriteRef.addChildEventListener(mEventListenerFav);
-        */
-        ///ここまでMainActivity350
-
-
-
-
-
-
-
+        //なんでfor文上にやっちゃダメなん？
         for(int Genre =1; Genre<5; Genre++){
             mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
             mGenre = Genre;
