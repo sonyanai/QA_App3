@@ -329,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+                /*
                 //     LoginActivityに移動wwwww
                 //ここでfavoriteListを取得してintentのputExtraLesson5-6.2でFavListActivity.javaに渡す
                 if(user != null){
@@ -338,6 +339,7 @@ public class MainActivity extends AppCompatActivity {
                     //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
                     favoriteRef.addChildEventListener(mEventListenerFav);
                 }
+                */
 
 
 
@@ -429,9 +431,19 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(mGenre == 5){
                     qIdRef = mDatabaseReference.child(Const.ContentsPATH);
                     qIdRef.addChildEventListener(qEventListener);
+                    //     LoginActivityに移動wwwww
+                    //ここでfavoriteListを取得してintentのputExtraLesson5-6.2でFavListActivity.javaに渡す
+                    if(user != null){
+
+                        //Favの中のuidにfavoriteRefという領域を作る
+                        favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
+                        //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
+                        favoriteRef.addChildEventListener(mEventListenerFav);
+                    }
                     Intent intent = new Intent(getApplicationContext(), FavListActivity.class);
                     startActivity(intent);
                 }else{
