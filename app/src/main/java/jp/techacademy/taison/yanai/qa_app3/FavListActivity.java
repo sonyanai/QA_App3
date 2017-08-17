@@ -3,6 +3,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.ListView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,7 +17,7 @@ import java.util.HashMap;
 public class FavListActivity extends AppCompatActivity {
     private ListView mListView;
     private QuestionsListAdapter mAdapter;
-    //public static ArrayList<String> favList = new ArrayList<String>();
+    private ArrayList<Question> mFavList = new ArrayList<Question>();
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mGenreRef;
     public static ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
@@ -88,13 +89,31 @@ public class FavListActivity extends AppCompatActivity {
             //Questionクラスのquestionにtitle, body, name,uid, dataSnapshot.getKey(),
             // mGenre, bytes, answerArrayLisを渡す
             Question question = new Question(title, body, name, uid, dataSnapshot.getKey(), mGenre, bytes, answerArrayList);
+            //mQuestionArrayListに質問を追加する
+            mQuestionArrayList.add(question);
 
 
+            /*log.dをするといことは、不要なコードを埋め込むことになり、
+            それだけでエラーの元にもなります。
+            しかも、もっとデータを見たくても、その時はまたlog.dを追加しなければなりません。
+            最後には消さなければなりませんので、もっとも無駄なデバッグ方法だからです。
+            勿論、非同期メソッド等を使用するような場合とか、余程特殊なものは別ですが。。。
+            Log.d( "debug" , mQuestionArrayList );
+            Log.d( "debug" , MainActivity.favList );
+            Log.d( "debug" , mFavList );*/
             //ここで一致してるか確認す
-            for( String matchQuestion : MainActivity.favList){
-                if(question.getQuestionUid().equals(MainActivity.favList)){
-                    //mQuestionArrayListに質問を追加する
-                    mQuestionArrayList.add(question);
+            //ArrayList-Question   :   ArrayList-String        mFavList-Question
+            //左側は、右側のリストから取り出したデータが入る変数を定義します
+            //これはなんでもいい
+            //Question型の変数matchFavにmQuestionArrayListの中身を一つずついれる
+            for( Question matchFav : mQuestionArrayList){
+                //String型のfavMatchにMainActivity.favListの中身を一つずついれる
+                for(String favMatch : MainActivity.favList){
+                    //matchFavの質問id(String型)とfavMatch(String型)が同じとき
+                    if(matchFav.getQuestionUid().equals(favMatch)){
+                        //質問(Question型)をmFavList(Question型)に追加する
+                        mFavList.add(question);
+                    }
                 }
             }
 
@@ -226,7 +245,7 @@ public class FavListActivity extends AppCompatActivity {
         //mListViewの作成
         mListView = (ListView) findViewById(R.id.fListView);
         //mQuestionArrayList という変数に入ったインスタンスが入れ替わる度に行います。
-        mAdapter.setQuestionArrayList(mQuestionArrayList);
+        mAdapter.setQuestionArrayList(mFavList);
         //onCreate() の中で一回だけやれば良い処理です。
         mListView.setAdapter(mAdapter);
 

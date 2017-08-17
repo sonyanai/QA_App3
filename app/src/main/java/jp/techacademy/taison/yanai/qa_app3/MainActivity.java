@@ -66,7 +66,10 @@ public class MainActivity extends AppCompatActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
             String questionId = (String) dataSnapshot.getValue();
+            Log.d("debug", "questionId = " + questionId);
             favList.add(questionId);
+
+            //??mAdapter.notifyDataSetChanged();
 
 
 
