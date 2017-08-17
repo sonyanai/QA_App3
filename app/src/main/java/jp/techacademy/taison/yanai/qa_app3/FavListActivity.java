@@ -95,28 +95,15 @@ public class FavListActivity extends AppCompatActivity {
                 if(question.getQuestionUid().equals(MainActivity.favList)){
                     //mQuestionArrayListに質問を追加する
                     mQuestionArrayList.add(question);
-                    //アダプタが内部で管理しているデータに変更が生じた後に、
-                    // アダプターを通じて ListView に再描画を促している
-                    mAdapter.notifyDataSetChanged();
                 }
             }
 
-            //mQuestionArrayList.clear();
-            mAdapter.setQuestionArrayList(mQuestionArrayList);
-            mListView.setAdapter(mAdapter);
-
-
-
-
-            /*//Questionクラスのquestionにtitle, body, name,uid, dataSnapshot.getKey(),
-            // mGenre, bytes, answerArrayLisを渡す
-            Question question = new Question(title, body, name, uid, dataSnapshot.getKey(), mGenre, bytes, answerArrayList);
-            //mQuestionArrayListに質問を追加する
-            mQuestionArrayList.add(question);
             //アダプタが内部で管理しているデータに変更が生じた後に、
-            // アダプターを通じて ListView に再描画を促している
-            mAdapter.notifyDataSetChanged();*/
-
+            // アダプターを通じて ListView に再描画を促しているmQuestionArrayList という変数に
+            // 入ったリストのインスタンスが入れ替わった場合、あるいは
+            // mQuestionArrayList というインスタンスは同じだけど、そのリストの「中身」のデータに
+            // 変化が生じる度に行います。
+            mAdapter.notifyDataSetChanged();
 
         }
 
@@ -238,6 +225,11 @@ public class FavListActivity extends AppCompatActivity {
         mAdapter = new QuestionsListAdapter(FavListActivity.this);
         //mListViewの作成
         mListView = (ListView) findViewById(R.id.fListView);
+        //mQuestionArrayList という変数に入ったインスタンスが入れ替わる度に行います。
+        mAdapter.setQuestionArrayList(mQuestionArrayList);
+        //onCreate() の中で一回だけやれば良い処理です。
+        mListView.setAdapter(mAdapter);
+
         //mAdapterに変化があったら通知する
         //mAdapter.notifyDataSetChanged();
         //favoriteList.clear();
