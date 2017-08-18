@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d("debug", "questionId = " + questionId);
             favList.add(questionId);
 
-            //??mAdapter.notifyDataSetChanged();
+            //描画しないからいらない
+            //mAdapter.notifyDataSetChanged();
 
 
 
@@ -103,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         //要素(質問)が追加されたときに呼ばれるメソッド
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            //新しいArrayListのallQuestionsArrayListを作成，初期化
-            //ArrayList<Question> allQuestionsArrayList = new ArrayList<Question>();
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体を取り出しているという意味になります。
             HashMap<String, Object> map = (HashMap) dataSnapshot.getValue();
@@ -135,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 //Question question = (Question) map.get(key);
                 Question question = new Question(title, body, name, uid, questionUid, genre, bytes, answers);
                 allQuestionsArrayList.add(question);
+                //mQuestionArrayList.add(question);
             }
 
             //mQuestionArrayListに質問を追加する
@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
             String body = (String) map.get("body");
             String name = (String) map.get("name");
             String uid = (String) map.get("uid");
-            String allQuestion = (String) map.get("mQuestionUid");
+            //String allQuestion = (String) map.get("mQuestionUid");
             //ここも同様だけどここでとってきた値は人間には意味不明な文字列で
             //この下のif文でそれを画像に変換している
             String imageString = (String) map.get("image");
@@ -537,7 +537,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //現在お気に入りにしてあるやつを引っ張ってくる
     public void getFav() {
+        //MainActivityを開くたびに実行されてお気に入りが増えていかないように！
         favList.clear();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null){

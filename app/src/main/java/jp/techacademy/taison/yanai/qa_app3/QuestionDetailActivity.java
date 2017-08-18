@@ -34,6 +34,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
     private Question mQuestion;
     private QuestionDetailListAdapter mAdapter;
     int position;
+    Button mButton;
 
 
 
@@ -110,15 +111,26 @@ public class QuestionDetailActivity extends AppCompatActivity {
     //アプリ起動時に始まるメソッド
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_question_detail);
+
+
+
+
+        //ここで表示非表示
+        //if(MainActivity.flag_login = false){
+            //fav_button.setVisibility(Button.Gone);
+        //}
 
         //現在ログイン中のユーザー(author)を取得してuserに渡す
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //もしログインしていなかったらlayoutファイルは2,ログインしていたらlayoutファイルは1をセットする
-        if (user == null){
-        setContentView(R.layout.activity_question_detail2);
-        }else{
+        /*if (MainActivity.flag_login == true){
         setContentView(R.layout.activity_question_detail);
-        }
+        }else{
+        setContentView(R.layout.activity_question_detail2);
+        }*/
+        //宣言　UIのインスタンスをメンバ変数に保持する
+        mButton = (Button)findViewById(R.id.fav_button);
 
 
         // 渡ってきたQuestionのオブジェクトを保持する
@@ -126,6 +138,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         mQuestion = (Question) extras.get("question");
 
         setTitle(mQuestion.getTitle());
+
 
 
         // ListViewの準備
@@ -164,27 +177,29 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
         //宣言　UIのインスタンスをメンバ変数に保持する
-        final Button mButton = (Button)findViewById(R.id.fav_button);
+        Button mButton = (Button)findViewById(R.id.fav_button);
         //リスナーの登録
-        mButton.setOnClickListener(new View.OnClickListener() {//ここの時点でmButtonがnullになっている
+        mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //この状態を保存したい
-                mButton.setBackgroundColor(rgb(0,100,200));
-                FirebaseAuth mAuth;
-                DatabaseReference mDataBaseReference;
-                //mQuestionArrayList = new ArrayList<Question>();
-                // リストを作成，初期化
-                mAuth = FirebaseAuth.getInstance();
-                //authorを定義
-                String mQuestionUid;
-                //String型のmQuestionUidを宣言
+                //mButton.setBackgroundColor(rgb(0,100,200));
 
-                mDataBaseReference = FirebaseDatabase.getInstance().getReference();
-                //authorの情報を取得
-                FirebaseUser user = mAuth.getCurrentUser();
-                //現在ログインしているアカウントauthorをuserとする
+
+                FirebaseAuth mAuth;//宣言
+                DatabaseReference mDataBaseReference;//宣言
+
+
+                mAuth = FirebaseAuth.getInstance();//authorを定義
+                String mQuestionUid;
+
+
+                mDataBaseReference = FirebaseDatabase.getInstance().getReference();//authorの情報を取得
+                FirebaseUser user = mAuth.getCurrentUser();//現在ログインしているアカウントauthorをuserとする
                 //uidにユーザーidを渡す
                 if (user != null) {
                     // User is signed in
@@ -229,7 +244,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
 
 
+
             }
         });
+
+
     }
 }
