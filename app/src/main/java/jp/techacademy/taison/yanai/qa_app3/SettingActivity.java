@@ -1,10 +1,12 @@
 package jp.techacademy.taison.yanai.qa_app3;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -82,6 +84,18 @@ public class SettingActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance().signOut();
                 mNameText.setText("");
                 Snackbar.make(v, "ログアウトしました", Snackbar.LENGTH_LONG).show();
+
+
+
+                //ここから
+                //ログアウト中なのでfaulse
+                MainActivity.flag_login = false;
+                //最後にMainActivityに飛ばす
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                //ここまで追加
+
+
             }
         });
     }

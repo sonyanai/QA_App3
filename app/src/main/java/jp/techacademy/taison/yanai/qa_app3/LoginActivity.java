@@ -62,6 +62,10 @@ public class LoginActivity extends AppCompatActivity {
                     String email = mEmailEditText.getText().toString();
                     String password = mPasswordEditText.getText().toString();
                     login(email, password);
+
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
                 } else {
 
                     // 失敗した場合
@@ -74,6 +78,9 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
+
+
+
 
         // ログイン処理のリスナー
         mLoginListener = new OnCompleteListener<AuthResult>() {
@@ -113,8 +120,9 @@ public class LoginActivity extends AppCompatActivity {
                     mProgress.setVisibility(ProgressBar.GONE);
 
                     // Activityを閉じる
-                    finish();
-
+                    //finish();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
                 } else {
                     // 失敗した場合
                     // エラーを表示する
@@ -126,10 +134,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
 
-
-
-            //ここだ
         };
+
+
+
+
 
         // UIの準備
         setTitle("ログイン");
@@ -181,6 +190,10 @@ public class LoginActivity extends AppCompatActivity {
                     mIsCreateAccount = false;
 
                     login(email, password);
+
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+
                 } else {
                     // エラーを表示する
                     Snackbar.make(v, "正しく入力してください", Snackbar.LENGTH_LONG).show();

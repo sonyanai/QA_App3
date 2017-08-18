@@ -14,13 +14,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+
 public class FavListActivity extends AppCompatActivity {
     private ListView mListView;
     private QuestionsListAdapter mAdapter;
     private ArrayList<Question> mFavList = new ArrayList<Question>();
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mGenreRef;
-    public static ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
+    //public static宣言だとstaticで共有してるから何回も加算される
+    //public static ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
+    //staticは便利だけど気を付けなきゃ気付けず苦しむ！！！
+    private ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
     private ArrayList<Answer> answerArrayList;
     private int mGenre = 0;
 
@@ -193,37 +198,6 @@ public class FavListActivity extends AppCompatActivity {
 
 
 
-    //mEventListenerと同期させるためにMainActivityに移動60くらい
-    /*
-    DatabaseReference favoriteRef;
-    private ChildEventListener mEventListenerFav = new ChildEventListener() {
-        @Override
-        //FavRefにはいってるmQuestionUidを1つずつ表示している
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            String questionId = (String) dataSnapshot.getValue();
-            favList.add(questionId);
-
-
-
-        }
-        @Override
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        }
-        @Override
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-        }
-        @Override
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-        }
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-        }
-    };
-    */
-
-
-
 
 
 
@@ -248,25 +222,6 @@ public class FavListActivity extends AppCompatActivity {
         mAdapter.setQuestionArrayList(mFavList);
         //onCreate() の中で一回だけやれば良い処理です。
         mListView.setAdapter(mAdapter);
-
-        //mAdapterに変化があったら通知する
-        //mAdapter.notifyDataSetChanged();
-        //favoriteList.clear();
-
-
-
-
-
-        ///ここから
-        /*
-        //Favの中のuidにfavoriteRefという領域を作る
-        favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
-        //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
-        favoriteRef.addChildEventListener(mEventListenerFav);
-        */
-        ///ここまでMainActivity350
-
-
 
 
 
