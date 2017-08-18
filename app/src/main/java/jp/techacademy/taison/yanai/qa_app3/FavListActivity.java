@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 public class FavListActivity extends AppCompatActivity {
     private ListView mListView;
-    private QuestionsListAdapter mAdapter;
+    private QuestionsListAdapter fAdapter;
     private ArrayList<Question> mFavList = new ArrayList<Question>();
     private DatabaseReference mDatabaseReference;
     private DatabaseReference mGenreRef;
@@ -127,7 +127,7 @@ public class FavListActivity extends AppCompatActivity {
             // 入ったリストのインスタンスが入れ替わった場合、あるいは
             // mQuestionArrayList というインスタンスは同じだけど、そのリストの「中身」のデータに
             // 変化が生じる度に行います。
-            mAdapter.notifyDataSetChanged();
+            fAdapter.notifyDataSetChanged();
 
         }
 
@@ -155,7 +155,7 @@ public class FavListActivity extends AppCompatActivity {
                         }
                     }
 
-                    mAdapter.notifyDataSetChanged();
+                    fAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -215,13 +215,13 @@ public class FavListActivity extends AppCompatActivity {
         //favoriteListというArrayListを作る
         //favoriteList = new ArrayList<String>();
         //mAdapterの作成
-        mAdapter = new QuestionsListAdapter(FavListActivity.this);
+        fAdapter = new QuestionsListAdapter(FavListActivity.this);
         //mListViewの作成
         mListView = (ListView) findViewById(R.id.fListView);
         //mQuestionArrayList という変数に入ったインスタンスが入れ替わる度に行います。
-        mAdapter.setQuestionArrayList(mFavList);
+        fAdapter.setQuestionArrayList(mFavList);
         //onCreate() の中で一回だけやれば良い処理です。
-        mListView.setAdapter(mAdapter);
+        mListView.setAdapter(fAdapter);
 
 
 

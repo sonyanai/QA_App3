@@ -96,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+/*
+
+
+
+
+
+
+
 
 
 
@@ -169,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
+*/
 
     //データに追加・変化があった時に受け取るリスナー
     //一番最初に更新したい！！
@@ -423,8 +431,17 @@ public class MainActivity extends AppCompatActivity {
 
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(mGenre == 5){
+                    /*
                     qIdRef = mDatabaseReference.child(Const.ContentsPATH);
-                    qIdRef.addChildEventListener(qEventListener);
+                    qIdRef.addChildEventListener(qEventListener);*/
+
+
+
+
+
+
+
+
                     //     LoginActivityに移動wwwww
                     //ここでfavoriteListを取得してintentのputExtraLesson5-6.2でFavListActivity.javaに渡す
                     Intent intent = new Intent(getApplicationContext(), FavListActivity.class);
