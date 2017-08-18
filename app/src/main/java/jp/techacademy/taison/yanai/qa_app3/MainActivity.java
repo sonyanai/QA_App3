@@ -510,28 +510,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-        /*
-        //お気に入り一覧
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        DatabaseReference dataBaseReference = FirebaseDatabase.getInstance().getReference();
-
-        favoriteList = new ArrayList<Question>();
-        favoriteList.clear();
-
-        favoriteRef = dataBaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
-        favoriteRef.addChildEventListener(mEventListenerFav);
-        /* 今、追加していただいたコードは、本来はユーザーがログインした後で追加するものですが
-        正しく理解して頂くために、onCreateに書いていただきましたので、その辺りはコメントとして書いておいてくださいね！*/
-        //ここまで
-
         getFav();
 
     }
-
-
-
 
 
 
@@ -577,20 +558,22 @@ public class MainActivity extends AppCompatActivity {
     public void getFav()
     {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //if(user != null){
-        if(user == null){
+        if(user != null){
+        //if(user == null){
             // ログインフラグをonにする
             this.flag_login = true;
 
             //Favの中のuidにfavoriteRefという領域を作る
-            String user_id = "YuslctkK7TQXd1RxrgCFQgcF4wX2";
+            //String user_id = "YuslctkK7TQXd1RxrgCFQgcF4wX2";
+            String user_id = user.getUid();
             //favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
             favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user_id));
             //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
             favoriteRef.addChildEventListener(mEventListenerFav);
         } else {
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             // メニューにお気に入り一覧を表示させない。
-
+            navigationView.getMenu().findItem(R.id.nav_fav).setVisible(false);
             // ログインフラグをオフにする
             this.flag_login = false;
         }
