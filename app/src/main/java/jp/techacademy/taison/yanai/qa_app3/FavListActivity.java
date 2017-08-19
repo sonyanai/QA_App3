@@ -116,17 +116,9 @@ public class FavListActivity extends AppCompatActivity {
                 for(String favMatch : MainActivity.favList){
                     //matchFavの質問id(String型)とfavMatch(String型)が同じとき
                     if(matchFav.getQuestionUid().equals(favMatch)){
-                        if (mFavList.size() ==0){
+                        if (mFavList.indexOf(matchFav) < 0){
+                            //質問(Question型)をmFavList(Question型)に追加する
                             mFavList.add(matchFav);
-                        }else{
-                            for (Question match : mFavList){
-                                if (match.equals(matchFav)){
-                                    break;
-                                }else{
-                                    //質問(Question型)をmFavList(Question型)に追加する
-                                    mFavList.add(matchFav);
-                                }
-                            }
                         }
                     }
                 }//こいつら絶対場所悪くない？
