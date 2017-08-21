@@ -35,7 +35,6 @@ public class FavListActivity extends AppCompatActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体を取り出しているという意味になります。
-            Log.d("debug", String.valueOf(mGenre));
             HashMap map = (HashMap) dataSnapshot.getValue();
             //key-value形式のデータのkeyを指定して、それに対応するデータの中身を(String型にして)取っている
             String title = (String) map.get("title");
@@ -61,16 +60,8 @@ public class FavListActivity extends AppCompatActivity {
                 bytes = new byte[0];
             }
 
-            Log.d("debug", "ここまで処理が行われていますよ！ title = " + title);
-
-
-
-
             //新しいリストのanswerArrayListを宣言
             answerArrayList = new ArrayList<Answer>();
-
-
-
 
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体(answers)を取り出しているという意味になります。
@@ -99,10 +90,10 @@ public class FavListActivity extends AppCompatActivity {
 
             //Questionクラスのquestionにtitle, body, name,uid, dataSnapshot.getKey(),
             // mGenre, bytes, answerArrayLisを渡す
-            Question question = new Question(title, body, name, uid, dataSnapshot.getKey(), mGenre, bytes, answerArrayList);
+            Question question = new Question(title, body, name, uid, dataSnapshot.getKey(), 0, bytes, answerArrayList);//mGenre->0
             Log.d("debug", "mQuestionArrayListのquestion = "+ question.getQuestionUid());
             //mQuestionArrayListに質問を追加する
-            mQuestionArrayList.add(question);//7個しか入っていない
+            //mQuestionArrayList.add(question);//ここは修正
 
 
             /*log.dをするといことは、不要なコードを埋め込むことになり、
@@ -121,8 +112,7 @@ public class FavListActivity extends AppCompatActivity {
             //Log.d("debug", "mQuestionArrayList.size() = " + mQuestionArrayList.size());
             //Firebase から質問を一つ一つ受信している
             //Question型の変数matchFavにmQuestionArrayListの中身を一つずついれる
-            Log.d("debug", "------------------------------------------------------" );//for文は繰り返されるので区切りを作っておく
-            for( Question matchFav : mQuestionArrayList){
+            /*for( Question matchFav : mQuestionArrayList){
                 //Log.d("debug", "mQuestionArrayList = " + matchFav.getQuestionUid());
                 //String型のfavMatchにMainActivity.favListの中身を一つずついれる
                 for(String favMatch : MainActivity.favList){
@@ -134,6 +124,13 @@ public class FavListActivity extends AppCompatActivity {
                             //質問(Question型)をmFavList(Question型)に追加する
                             mFavList.add(matchFav);
                         }
+                    }
+                }
+            }*/
+            for (String favMatch : MainActivity.favList) {
+                if (question.getQuestionUid().equals(favMatch)) {
+                    if (mFavList.indexOf(question) == -1) {
+                        mFavList.add(question);
                     }
                 }
             }
@@ -225,17 +222,19 @@ public class FavListActivity extends AppCompatActivity {
         //Adapterの初期化,ListViewも初期化
         //お気に入り一覧
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+
+
         //favoriteListというArrayListを作る
         //favoriteList = new ArrayList<String>();
         //mAdapterの作成
         fAdapter = new QuestionsListAdapter(FavListActivity.this);
-        //mListViewの作成
-        mListView = (ListView) findViewById(R.id.fListView);
         //mQuestionArrayList という変数に入ったインスタンスが入れ替わる度に行います。
         fAdapter.setQuestionArrayList(mFavList);
+
+
+        //mListViewの作成
+        mListView = (ListView) findViewById(R.id.fListView);
         //onCreate() の中で一回だけやれば良い処理です。
         mListView.setAdapter(fAdapter);
 
@@ -244,12 +243,20 @@ public class FavListActivity extends AppCompatActivity {
 
 
 
-        for(int Genre =1; Genre<5; Genre++){
+        /*for(int Genre =1; Genre<5; Genre++){
             mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
             mGenre = Genre;
             Log.d("debug", "mGenre = "+ mGenre);
             mGenreRef.addChildEventListener(mEventListener);
-        }
+        }*/
 
+
+        for(int genre = 1; genre < 5; genre++) {
+            mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(genre));
+            mGenreRef.addChildEventListener(mEventListener);
+        }
     }
 }
+
+
+
