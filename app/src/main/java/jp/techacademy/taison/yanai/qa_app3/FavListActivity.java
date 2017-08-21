@@ -35,12 +35,14 @@ public class FavListActivity extends AppCompatActivity {
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
             //これは、Firebaseのデータ構造がkey-value形式になっているので、
             // getValue()でその形式のデータ本体を取り出しているという意味になります。
+            Log.d("debug", String.valueOf(mGenre));
             HashMap map = (HashMap) dataSnapshot.getValue();
             //key-value形式のデータのkeyを指定して、それに対応するデータの中身を(String型にして)取っている
             String title = (String) map.get("title");
             String body = (String) map.get("body");
             String name = (String) map.get("name");
             String uid = (String) map.get("uid");
+            Log.d("debug", "uid"+uid );
             //String allQuestion = (String) map.get("mQuestionUid");
             //ここも同様だけどここでとってきた値は人間には意味不明な文字列で
             //この下のif文でそれを画像に変換している
@@ -48,6 +50,7 @@ public class FavListActivity extends AppCompatActivity {
             //宣言
             byte[] bytes;
             //文字列を画像に変換している
+            //Log.d("debug", imageString);
             if (imageString != null) {
                 //文字列をBASE64エンコードというデータに変換する仕組みを使って画像データとして復元している
                 //QuestionSendActivity.javaでやったことの逆！
@@ -57,6 +60,9 @@ public class FavListActivity extends AppCompatActivity {
             } else {
                 bytes = new byte[0];
             }
+
+            Log.d("debug", "ここまで処理が行われていますよ！ title = " + title);
+
 
 
 
@@ -94,8 +100,9 @@ public class FavListActivity extends AppCompatActivity {
             //Questionクラスのquestionにtitle, body, name,uid, dataSnapshot.getKey(),
             // mGenre, bytes, answerArrayLisを渡す
             Question question = new Question(title, body, name, uid, dataSnapshot.getKey(), mGenre, bytes, answerArrayList);
+            Log.d("debug", "mQuestionArrayListのquestion = "+ question.getQuestionUid());
             //mQuestionArrayListに質問を追加する
-            mQuestionArrayList.add(question);
+            mQuestionArrayList.add(question);//7個しか入っていない
 
 
             /*log.dをするといことは、不要なコードを埋め込むことになり、
@@ -109,19 +116,26 @@ public class FavListActivity extends AppCompatActivity {
             //ここで一致してるか確認す
             //ArrayList-Question   :   ArrayList-String        mFavList-Question
             //左側は、右側のリストから取り出したデータが入る変数を定義します
-            //これはなんでもいい
+            //これはなんでもいいことの確認　size=1,2,3,4,5...増えていく
+            //Log.d("debug", "MainActivity.favList.size() = " + MainActivity.favList.size());
+            //Log.d("debug", "mQuestionArrayList.size() = " + mQuestionArrayList.size());
+            //Firebase から質問を一つ一つ受信している
             //Question型の変数matchFavにmQuestionArrayListの中身を一つずついれる
+            Log.d("debug", "------------------------------------------------------" );//for文は繰り返されるので区切りを作っておく
             for( Question matchFav : mQuestionArrayList){
+                //Log.d("debug", "mQuestionArrayList = " + matchFav.getQuestionUid());
                 //String型のfavMatchにMainActivity.favListの中身を一つずついれる
                 for(String favMatch : MainActivity.favList){
+                    //Log.d("debug", "MainActivity.favList = " + favMatch);
                     //matchFavの質問id(String型)とfavMatch(String型)が同じとき
                     if(matchFav.getQuestionUid().equals(favMatch)){
-                        if (mFavList.indexOf(matchFav) < 0){
+                        if (mFavList.indexOf(matchFav) == -1){
+                            //indexOf(matchFav) == -1の時リストに入っていないから
                             //質問(Question型)をmFavList(Question型)に追加する
                             mFavList.add(matchFav);
                         }
                     }
-                }//こいつら絶対場所悪くない？
+                }
             }
 
             //アダプタが内部で管理しているデータに変更が生じた後に、
@@ -229,12 +243,13 @@ public class FavListActivity extends AppCompatActivity {
 
 
 
+
         for(int Genre =1; Genre<5; Genre++){
             mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(mGenre));
             mGenre = Genre;
+            Log.d("debug", "mGenre = "+ mGenre);
             mGenreRef.addChildEventListener(mEventListener);
         }
-
 
     }
 }
