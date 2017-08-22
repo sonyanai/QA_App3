@@ -209,10 +209,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
                 //MainActivityでmQuestionArrayListをsta ticで宣言しているからMainActivity.mQuestionArrayListで
                 //MainActivityで使ってるmQuestionArrayListをひっぱってこれる！
-                Question qObject = MainActivity.mQuestionArrayList.get(position);
+                Question qObject = MainActivity.mQuestionArrayList.get(position);//position取れてなくね？
                 //すべての質問が入ってるmQuestionArrayListを使い今のpositionのobject(質問)を取得
-
-
                 mQuestionUid = qObject.getQuestionUid();
                 //そのobject(質問)の質問idを取得
 

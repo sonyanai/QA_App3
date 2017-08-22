@@ -127,8 +127,11 @@ public class FavListActivity extends AppCompatActivity {
                     }
                 }
             }*/
+            Log.d("debag", "--------------------------------------------------");
             for (String favMatch : MainActivity.favList) {
+                Log.d("debag", "favMatchは"+favMatch);
                 if (question.getQuestionUid().equals(favMatch)) {
+                    Log.d("debag", "question.getQuestionUid()とfavMatchは"+question.getQuestionUid()+"と"+favMatch);
                     if (mFavList.indexOf(question) == -1) {
                         mFavList.add(question);
                     }
@@ -205,7 +208,6 @@ public class FavListActivity extends AppCompatActivity {
         public void onCancelled(DatabaseError databaseError) {
 
         }
-
     };
 
 
