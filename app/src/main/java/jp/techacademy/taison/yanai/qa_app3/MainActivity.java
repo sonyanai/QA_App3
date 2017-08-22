@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference qIdRef;
     private ListView mListView;
     public static ArrayList<Question> mQuestionArrayList = new ArrayList<Question>();
-    public static ArrayList<Question> allQuestionsArrayList = new ArrayList<Question>();
     private ArrayList<Answer> answerArrayList;
     private QuestionsListAdapter mAdapter;
     public String title;
@@ -92,92 +91,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-/*
-
-
-
-
-
-
-
-
-
-
-
-    private ChildEventListener qEventListener = new ChildEventListener() {
-        @Override
-        //要素(質問)が追加されたときに呼ばれるメソッド
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            //これは、Firebaseのデータ構造がkey-value形式になっているので、
-            // getValue()でその形式のデータ本体を取り出しているという意味になります。
-            HashMap<String, Object> map = (HashMap) dataSnapshot.getValue();
-            Log.d("debug", map.toString());
-            for (String key : map.keySet()) {
-                Iterator iter = map.keySet().iterator();
-                while (iter.hasNext()) {
-                    key = (String) iter.next();
-                    //Object型からHashMap型にキャストしていますよ
-                    HashMap value = (HashMap) map.get(key);
-                    Log.d("debug", key + " = " + value);
-                }
-
-                // (1) map の中に "title" というキーで保管されているデータを取り出す。
-                // (2) そのデータの実体は、String型なので、キャストをすることによって、Javaにその事実を教えてあげている。
-                // (3) question というインスタンスの中にある title という変数に (2) のデータをセットしている。
-                title = (String) map.get("title");
-                name = (String) map.get("name");
-                body = (String) map.get("body");
-                uid = (String) map.get("uid");
-                String imageString = (String) map.get("image");
-                byte[] bytes;
-                if (imageString != null) {
-                    bytes = Base64.decode(imageString, Base64.DEFAULT);
-                } else {
-                    bytes = new byte[0];
-                }
-                //Question question = (Question) map.get(key);
-                Question question = new Question(title, body, name, uid, questionUid, genre, bytes, answers);
-                allQuestionsArrayList.add(question);
-                //mQuestionArrayList.add(question);
-            }
-
-            //mQuestionArrayListに質問を追加する
-            //アダプタが内部で管理しているデータに変更が生じた後に、
-            // アダプターを通じて ListView に再描画を促している
-            mAdapter.notifyDataSetChanged();
-        }
-        @Override
-        //要素に変化があった時,今回は質問に対して回答が投稿された時に呼ばれる
-        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-        }
-        @Override
-        //リスト内のアイテムに対する変更がないかリッスンします。onChildAdded()や
-        //onChildRemoved() と併用して、リストに対する変更をモニタリングします
-        public void onChildRemoved(DataSnapshot dataSnapshot) {
-            //中身は？？メソッド自体にすでに意味がある？
-        }
-
-        @Override
-        //リストから削除されるアイテムがないかリッスンします。onChildAdded() や
-        // onChildChanged() と併用して、リストに対する変更をモニタリングします。
-        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override
-        //onCancelledは通信に失敗したり、データを読み書きするのに失敗したときに呼ばれるメソッド
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
-
-
-
-*/
 
     //データに追加・変化があった時に受け取るリスナー
     //一番最初に更新したい！！

@@ -207,12 +207,20 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     String uid = user.getUid();
                 }
 
+                /*
                 //MainActivityでmQuestionArrayListをsta ticで宣言しているからMainActivity.mQuestionArrayListで
                 //MainActivityで使ってるmQuestionArrayListをひっぱってこれる！
                 Question qObject = MainActivity.mQuestionArrayList.get(position);//position取れてなくね？
                 //すべての質問が入ってるmQuestionArrayListを使い今のpositionのobject(質問)を取得
                 mQuestionUid = qObject.getQuestionUid();
                 //そのobject(質問)の質問idを取得
+
+                この時点で、変数「mQuestion」にQuestionが設定されているから
+                ↓
+                */
+
+                mQuestionUid = mQuestion.getQuestionUid();
+
 
 
                 //firebaseのデータ構造のトップから，Const.FavPATH -> user.getUid() -> mQuestion.getQuestionUid()とデータ構造ツリーを辿り，その位置を示すリファレンスを取得しています．
