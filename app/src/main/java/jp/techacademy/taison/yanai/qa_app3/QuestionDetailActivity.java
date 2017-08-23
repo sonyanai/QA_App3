@@ -198,7 +198,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         }
 
         //リスナーの登録
-        mButton.setOnClickListener(new View.OnClickListener() {//ここの時点でmButtonがnullになっている
+        mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -283,7 +283,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
             }
         });
     }
-    private boolean isFav(String mQuestionUid){
+    private boolean isFav(String mQuestionUid){//あまり意味が分からん
         boolean ret = false;
         if(MainActivity.favList!=null){
             for(int i=0; i<MainActivity.favList.size(); i++){

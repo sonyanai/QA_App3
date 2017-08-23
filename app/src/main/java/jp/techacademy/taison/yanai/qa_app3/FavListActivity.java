@@ -263,17 +263,20 @@ public class FavListActivity extends AppCompatActivity {
             mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(genre));
             mGenreRef.addChildEventListener(mEventListener);
         }
+
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Questionのインスタンスを渡して質問詳細画面を起動する
                 Intent intent = new Intent(getApplicationContext(), QuestionDetailActivity.class);
-                intent.putExtra("question", mQuestionArrayList.get(position));
+                //questionがQuestionのインスタンス
+                //これをQuestionDetailActivity.classに渡す138,9行目で受け取る
+                // Bundle extras = getIntent().getExtras();   mQuestion = (Question) extras.get("question");
+                intent.putExtra("question", mFavList.get(position));
                 startActivity(intent);
             }
         });
     }
-
 }
 
 
