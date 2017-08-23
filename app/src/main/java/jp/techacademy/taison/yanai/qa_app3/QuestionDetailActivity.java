@@ -122,10 +122,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
 
 
-        //ここで表示非表示
-        //if(MainActivity.flag_login = false){
-            //fav_button.setVisibility(Button.Gone);
-        //}
+
 
         //現在ログイン中のユーザー(author)を取得してuserに渡す
         //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -182,10 +179,6 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
 
 
 
@@ -369,6 +362,21 @@ public class QuestionDetailActivity extends AppCompatActivity {
             }
         }
         return ret;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //ここに処理を書く
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //ここに処理を書く
+        if(user == null) {
+            // ログインフラグをoffにする
+            MainActivity.flag_login = false;
+            mButton.setVisibility(View.INVISIBLE);
+        }else{
+            MainActivity.flag_login = true;
+        }
     }
 
 }
