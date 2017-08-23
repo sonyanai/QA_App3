@@ -66,7 +66,10 @@ public class MainActivity extends AppCompatActivity {
 
             String questionId = (String) dataSnapshot.getValue();
             Log.d("debug", "questionId = " + questionId);
-            favList.add(questionId);
+            if (favList.indexOf(questionId) == -1) {
+                favList.add(questionId);
+            }
+            //favList.add(questionId);
 
             //描画しないからいらない
             //mAdapter.notifyDataSetChanged();
@@ -413,6 +416,7 @@ public class MainActivity extends AppCompatActivity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 // Questionのインスタンスを渡して質問詳細画面を起動する
                 Intent intent = new Intent(getApplicationContext(), QuestionDetailActivity.class);
                 //questionがQuestionのインスタンス
@@ -423,11 +427,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         getFav();
-
     }
-
-
-
 
 
 

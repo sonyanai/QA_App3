@@ -216,14 +216,15 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 // リストを作成，初期化
                 mAuth = FirebaseAuth.getInstance();
                 //authorを定義
-                String mQuestionUid;
+                //String mQuestionUid;
+                String mQuestionUid = mQuestion.getQuestionUid();
                 //String型のmQuestionUidを宣言
 
                 mDataBaseReference = FirebaseDatabase.getInstance().getReference();
                 //authorの情報を取得
                 FirebaseUser user = mAuth.getCurrentUser();
                 //現在ログインしているアカウントauthorをuserとする
-                if(isFav(mQuestion.getQuestionUid())){
+                /*if(isFav(mQuestion.getQuestionUid())){
                     //mButtonの表示を「★」にする
                     mButton.setBackgroundColor(rgb(0,100,200));
                     mQuestionUid = mQuestion.getQuestionUid();
@@ -233,7 +234,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     //favRef.removeValue();
 
 
-                    mDataBaseReference.child(Const.FavPATH).child(user.getUid()).child(mQuestionUid).addChildEventListener(new ChildEventListener() {
+/*                    mDataBaseReference.child(Const.FavPATH).child(user.getUid()).child(mQuestionUid).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot snapshot, String previousChild) {
                             snapshot.getRef().setValue(null);
@@ -271,9 +272,43 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     mQuestionUid = mQuestion.getQuestionUid();
                     /*DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
                     favRef.push().setValue(mQuestionUid);*/
-                    DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid()).child(mQuestionUid);
+/*                    DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
                     favRef.push().setValue(mQuestion);
+                }*/
+
+
+
+
+                if(isFav(mQuestion.getQuestionUid())){
+                    // 今現在登録されているので「解除する」
+                    for(String i : MainActivity.favList){
+                        //if文（mQuestionUidが一致したら）
+                        if( i.equals(mQuestionUid) ){
+                            MainActivity.favList.remove(i);
+                            break;
+                        }
+                    }
+                    //mButtonの表示を「☆」にする
+                    mButton.setBackgroundColor(rgb(0,100,200));
+                } else {
+                    if (MainActivity.favList.indexOf(mQuestionUid) == -1){
+                        // 今現在登録されていないので「登録」する  mQuestionUidをaddする
+                        MainActivity.favList.add(mQuestionUid);
+                        // mButtonの表示を「★」にする
+                        mButton.setBackgroundColor(rgb(0,200,100));
+                    }
                 }
+                DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
+                favRef.setValue(MainActivity.favList);
+
+
+
+
+
+
+
+
+
                 //mQuestionUid = mQuestion.getQuestionUid();
                 /*
                 //MainActivityでmQuestionArrayListをsta ticで宣言しているからMainActivity.mQuestionArrayListで
