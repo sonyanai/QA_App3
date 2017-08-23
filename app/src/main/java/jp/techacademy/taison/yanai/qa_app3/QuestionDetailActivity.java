@@ -79,6 +79,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
             mQuestion.getAnswers().add(answer);
             //回答に変化があったことをmAdapterに通知する
             mAdapter.notifyDataSetChanged();
+
+
+
+
         }
 
         @Override
@@ -92,7 +96,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
         //リストから削除されるアイテムがないかリッスンします。onChildAdded() や
         // onChildChanged() と併用して、リストに対する変更をモニタリングします。
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+            //Log.d("debag", "onChildRemoved:" + dataSnapshot.getKey());
+            //Log.d("debag", "onChildRemoved:" + dataSnapshot.getValue());
         }
 
         @Override
@@ -231,8 +236,16 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     mButton.setBackgroundColor(rgb(0,200,100));
                     //ここの3行でfirebaseに保存している
                     mQuestionUid = mQuestion.getQuestionUid();
-                    DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
-                    favRef.push().setValue(mQuestionUid);
+                    //DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
+                    //favRef.push().setValue(mQuestionUid);
+
+                    mDataBaseReference.child(Const.FavPATH).child(user.getUid()).addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot snapshot, String previousChild) {
+                            snapshot.getRef().setValue(null);
+                        }
+                    });
+
                 }
                 //mQuestionUid = mQuestion.getQuestionUid();
                 /*
