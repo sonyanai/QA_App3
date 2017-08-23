@@ -107,8 +107,8 @@ public class LoginActivity extends AppCompatActivity {
                         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot snapshot) {
-                                Map data = (Map) snapshot.getValue();
-                                saveName((String)data.get("name"));
+                                //Map data = (Map) snapshot.getValue();
+                                //saveName((String)data.get("name"));
                             }
                             @Override
                             public void onCancelled(DatabaseError firebaseError) {
@@ -121,8 +121,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     // Activityを閉じる
                     //finish();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
                 } else {
                     // 失敗した場合
                     // エラーを表示する
@@ -131,9 +129,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     // プログレスダイアログを非表示にする
                     mProgress.setVisibility(ProgressBar.GONE);
-                }
-            }
 
+                }
+                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                //startActivity(intent);
+            }
         };
 
 

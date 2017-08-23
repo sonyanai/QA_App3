@@ -492,4 +492,20 @@ public class MainActivity extends AppCompatActivity {
             this.flag_login = false;
         }
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user == null){
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            // メニューにお気に入り一覧を表示させない。
+            navigationView.getMenu().findItem(R.id.nav_fav).setVisible(false);
+        }else{
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            // メニューにお気に入り一覧を表示させない。
+            navigationView.getMenu().findItem(R.id.nav_fav).setVisible(true);
+        }
+    }
 }
