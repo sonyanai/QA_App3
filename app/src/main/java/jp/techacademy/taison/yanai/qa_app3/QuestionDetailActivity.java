@@ -96,8 +96,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         //リストから削除されるアイテムがないかリッスンします。onChildAdded() や
         // onChildChanged() と併用して、リストに対する変更をモニタリングします。
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-            //Log.d("debag", "onChildRemoved:" + dataSnapshot.getKey());
-            //Log.d("debag", "onChildRemoved:" + dataSnapshot.getValue());
+
         }
 
         @Override
@@ -230,22 +229,48 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     mQuestionUid = mQuestion.getQuestionUid();
                     DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid()).child(mQuestionUid);
 
-                    favRef.removeValue();
-                } else {
-                    //mButtonの表示を「☆」にする
-                    mButton.setBackgroundColor(rgb(0,200,100));
-                    //ここの3行でfirebaseに保存している
-                    mQuestionUid = mQuestion.getQuestionUid();
-                    //DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
-                    //favRef.push().setValue(mQuestionUid);
+                    //favRef.removeValue();
+
+
 
                     mDataBaseReference.child(Const.FavPATH).child(user.getUid()).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot snapshot, String previousChild) {
                             snapshot.getRef().setValue(null);
                         }
+                        @Override
+                        //リストから削除されるアイテムがないかリッスンします。onChildAdded() や
+                        // onChildChanged() と併用して、リストに対する変更をモニタリングします。
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                        }
+                        @Override
+                        //通信に失敗したり、データを読み書きするのに失敗したときに呼ばれるメソッド
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                        }
+                        @Override
+                        //並べ替えリストの項目順に変更がないかリッスンします。 onChildMoved() イベントは常に、
+                        // （現在の order-by メソッドに基づく）並べ替え変更が原因の onChildChanged() イベントに後続します
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                        }
                     });
 
+
+
+
+                } else {
+                    //mButtonの表示を「☆」にする
+                    mButton.setBackgroundColor(rgb(0,200,100));
+                    //ここの3行でfirebaseに保存している
+                    mQuestionUid = mQuestion.getQuestionUid();
+                    DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
+                    favRef.push().setValue(mQuestionUid);
                 }
                 //mQuestionUid = mQuestion.getQuestionUid();
                 /*
