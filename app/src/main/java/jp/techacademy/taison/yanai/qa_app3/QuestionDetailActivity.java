@@ -228,12 +228,12 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     mButton.setBackgroundColor(rgb(0,100,200));
                     mQuestionUid = mQuestion.getQuestionUid();
                     DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid()).child(mQuestionUid);
-
+                    /*favRef.addChildEventListener(リスナー);
+                    favRef.removeEventListener(リスナー);*/
                     //favRef.removeValue();
 
 
-
-                    mDataBaseReference.child(Const.FavPATH).child(user.getUid()).addChildEventListener(new ChildEventListener() {
+                    mDataBaseReference.child(Const.FavPATH).child(user.getUid()).child(mQuestionUid).addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot snapshot, String previousChild) {
                             snapshot.getRef().setValue(null);
@@ -269,8 +269,10 @@ public class QuestionDetailActivity extends AppCompatActivity {
                     mButton.setBackgroundColor(rgb(0,200,100));
                     //ここの3行でfirebaseに保存している
                     mQuestionUid = mQuestion.getQuestionUid();
-                    DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
-                    favRef.push().setValue(mQuestionUid);
+                    /*DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
+                    favRef.push().setValue(mQuestionUid);*/
+                    DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid()).child(mQuestionUid);
+                    favRef.push().setValue(mQuestion);
                 }
                 //mQuestionUid = mQuestion.getQuestionUid();
                 /*
