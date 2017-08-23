@@ -38,6 +38,8 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
 
 
+
+
     //データベース内にmAnswerRef領域を定義
     private DatabaseReference mAnswerRef;
     //データの変更を受け取るリスナーの定義
@@ -129,8 +131,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
         }else{
         setContentView(R.layout.activity_question_detail2);
         }*/
-        //宣言　UIのインスタンスをメンバ変数に保持する
-        mButton = (Button)findViewById(R.id.fav_button);
+
 
 
         // 渡ってきたQuestionのオブジェクトを保持する
@@ -180,14 +181,31 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
 
 
+
+
+
+
         //宣言　UIのインスタンスをメンバ変数に保持する
-        final Button mButton = (Button)findViewById(R.id.fav_button);
+        mButton = (Button)findViewById(R.id.fav_button);
+        if(isFav(mQuestion.getQuestionUid())){
+            //mButtonの表示を「★」にする
+            mButton.setBackgroundColor(rgb(0,200,100));
+
+        } else {
+            //mButtonの表示を「☆」にする
+            mButton.setBackgroundColor(rgb(0,100,200));
+
+        }
+
         //リスナーの登録
         mButton.setOnClickListener(new View.OnClickListener() {//ここの時点でmButtonがnullになっている
             @Override
             public void onClick(View v) {
-                //この状態を保存したい
-                mButton.setBackgroundColor(rgb(0,100,200));
+
+
+
+
+
                 FirebaseAuth mAuth;
                 DatabaseReference mDataBaseReference;
                 //mQuestionArrayList = new ArrayList<Question>();
@@ -201,12 +219,22 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 //authorの情報を取得
                 FirebaseUser user = mAuth.getCurrentUser();
                 //現在ログインしているアカウントauthorをuserとする
-                //uidにユーザーidを渡す
-                if (user != null) {
-                    // User is signed in
-                    String uid = user.getUid();
-                }
+                if(isFav(mQuestion.getQuestionUid())){
+                    //mButtonの表示を「★」にする
+                    mButton.setBackgroundColor(rgb(0,100,200));
+                    mQuestionUid = mQuestion.getQuestionUid();
+                    DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid()).child(mQuestionUid);
 
+                    favRef.removeValue();
+                } else {
+                    //mButtonの表示を「☆」にする
+                    mButton.setBackgroundColor(rgb(0,200,100));
+                    //ここの3行でfirebaseに保存している
+                    mQuestionUid = mQuestion.getQuestionUid();
+                    DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());
+                    favRef.push().setValue(mQuestionUid);
+                }
+                //mQuestionUid = mQuestion.getQuestionUid();
                 /*
                 //MainActivityでmQuestionArrayListをsta ticで宣言しているからMainActivity.mQuestionArrayListで
                 //MainActivityで使ってるmQuestionArrayListをひっぱってこれる！
@@ -215,11 +243,12 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 mQuestionUid = qObject.getQuestionUid();
                 //そのobject(質問)の質問idを取得
 
-                この時点で、変数「mQuestion」にQuestionが設定されているから
+                //この時点で、変数「mQuestion」にQuestionが設定されているから
+                //147行目　intent.putExtra("question", mQuestion);ここで先に指定している
+
                 ↓
                 */
 
-                mQuestionUid = mQuestion.getQuestionUid();
 
 
 
@@ -230,7 +259,7 @@ public class QuestionDetailActivity extends AppCompatActivity {
                 //mQuestion.getQuestionUid() = "abcde"
 
                 //仮にこうならば，favRefは，"fav" -> "1" -> "abcde" と辿っていったfirebaseのデータを指し示しているわけです
-                DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());//Firebase 上の「フォルダ名」として使用している
+                //DatabaseReference favRef = mDataBaseReference.child(Const.FavPATH).child(user.getUid());//Firebase 上の「フォルダ名」として使用している
                 //child(Const.FavPATH)は、 Firebase のデータ階層に一つ「フォルダ」を作っています。そのフォルダの下に、
                 // ユーザーIDでさらに「フォルダ」を作って、そのユーザーIDの「フォルダ」の下に
                 // お気に入りの質問IDを入れ込んでいるのが現状ですね
@@ -247,12 +276,24 @@ public class QuestionDetailActivity extends AppCompatActivity {
 
                 ↓お気に入りの質問idしか保存しない場合　　　　*/
 
-                favRef.push().setValue(mQuestionUid);
+                //favRef.push().setValue(mQuestionUid);
 
 
 
             }
         });
+    }
+    private boolean isFav(String mQuestionUid){
+        boolean ret = false;
+        if(MainActivity.favList!=null){
+            for(int i=0; i<MainActivity.favList.size(); i++){
+                if(MainActivity.favList.get(i).equals(mQuestionUid)){
+                    ret = true;
+                    break;
+                }
+            }
+        }
+        return ret;
     }
 
 }

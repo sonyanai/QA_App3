@@ -1,9 +1,12 @@
 package jp.techacademy.taison.yanai.qa_app3;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -14,6 +17,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+
+
 
 
 public class FavListActivity extends AppCompatActivity {
@@ -253,12 +259,33 @@ public class FavListActivity extends AppCompatActivity {
         }*/
 
 
-        for(int genre = 1; genre < 5; genre++) {
+            for(int genre = 1; genre < 5; genre++) {
             mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(genre));
             mGenreRef.addChildEventListener(mEventListener);
         }
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Questionのインスタンスを渡して質問詳細画面を起動する
+                Intent intent = new Intent(getApplicationContext(), QuestionDetailActivity.class);
+                intent.putExtra("question", mQuestionArrayList.get(position));
+                startActivity(intent);
+            }
+        });
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
