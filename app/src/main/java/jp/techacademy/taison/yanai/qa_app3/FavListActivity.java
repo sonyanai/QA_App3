@@ -278,6 +278,7 @@ public class FavListActivity extends AppCompatActivity {
             }
         });*/
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -303,6 +304,15 @@ public class FavListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    @Override
+    protected  void onPause(){
+        super.onPause();
+        for(int genre = 1; genre < 5; genre++) {
+            mFavList.clear();
+            mGenreRef = mDatabaseReference.child(Const.ContentsPATH).child(String.valueOf(genre));
+            mGenreRef.removeEventListener(mEventListener);
+        }
     }
 }
 
