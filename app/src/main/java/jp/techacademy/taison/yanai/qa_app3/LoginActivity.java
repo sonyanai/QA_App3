@@ -63,9 +63,9 @@ public class LoginActivity extends AppCompatActivity {
                     String password = mPasswordEditText.getText().toString();
                     login(email, password);
 
+                    //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    //startActivity(intent);
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
                 } else {
 
                     // 失敗した場合
@@ -131,8 +131,6 @@ public class LoginActivity extends AppCompatActivity {
                     mProgress.setVisibility(ProgressBar.GONE);
 
                 }
-                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                //startActivity(intent);
             }
         };
 
@@ -191,8 +189,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     login(email, password);
 
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    //startActivity(intent);
 
                 } else {
                     // エラーを表示する
@@ -200,7 +198,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void createAccount(String email, String password) {
@@ -217,6 +214,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // ログインする
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(mLoginListener);
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 
     private void saveName(String name) {

@@ -54,6 +54,44 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<Answer> answers;
     public static ArrayList<String> favList = new ArrayList<String>();
     public static boolean flag_login = false;
+    private FirebaseAuth mAuth;
+
+
+
+
+
+
+
+    //userに変化があったときに呼ばれる
+    private FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
+        @Override
+        public void onAuthStateChanged( FirebaseAuth firebaseAuth) {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            Log.d("debag","user ="+user);
+            if (user != null) {
+                // User is signed in
+                Log.d("debag", "onAuthStateChanged:signed_in:" + user.getUid());
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                // メニューにお気に入り一覧を表示させる。
+                navigationView.getMenu().findItem(R.id.nav_fav).setVisible(true);
+            } else {
+                // User is signed out
+                Log.d("debag", "onAuthStateChanged:signed_out");
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                // メニューにお気に入り一覧を非表示させる。
+                navigationView.getMenu().findItem(R.id.nav_fav).setVisible(false);
+            }
+        }
+    };
+
+
+
+
+
+
+
+
+
 
 
 
@@ -427,9 +465,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         getFav();
+
+        mAuth = FirebaseAuth.getInstance();
+
+        mAuth.addAuthStateListener(mAuthListener);
+
+
     }
-
-
 
 
     @Override
@@ -485,27 +527,8 @@ public class MainActivity extends AppCompatActivity {
             //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
             favoriteRef.addChildEventListener(mEventListenerFav);
         } else {
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-            // メニューにお気に入り一覧を表示させない。
-            navigationView.getMenu().findItem(R.id.nav_fav).setVisible(false);
             // ログインフラグをオフにする
             this.flag_login = false;
-        }
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user == null){
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-            // メニューにお気に入り一覧を表示させない。
-            navigationView.getMenu().findItem(R.id.nav_fav).setVisible(false);
-        }else{
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-            // メニューにお気に入り一覧を表示させない。
-            navigationView.getMenu().findItem(R.id.nav_fav).setVisible(true);
         }
     }
 }
