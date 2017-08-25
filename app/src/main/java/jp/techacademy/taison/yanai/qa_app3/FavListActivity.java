@@ -229,6 +229,7 @@ public class FavListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fav_list);
         //Adapterの初期化,ListViewも初期化
         //お気に入り一覧
+        setTitle("お気に入り");
 
         mDatabaseReference = FirebaseDatabase.getInstance().getReference();
 
@@ -245,6 +246,7 @@ public class FavListActivity extends AppCompatActivity {
         mListView = (ListView) findViewById(R.id.fListView);
         //onCreate() の中で一回だけやれば良い処理です。
         mListView.setAdapter(fAdapter);
+
 
 
 

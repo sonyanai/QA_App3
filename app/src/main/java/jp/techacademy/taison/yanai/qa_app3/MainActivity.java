@@ -74,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                 // メニューにお気に入り一覧を表示させる。
                 navigationView.getMenu().findItem(R.id.nav_fav).setVisible(true);
+
+                //ログアウトしたらfavlList.sizeが0になるからfirebaseから引っ張ってくる
+                String user_id = user.getUid();
+                //favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user.getUid()));
+                favoriteRef = mDatabaseReference.child(Const.FavPATH).child(String.valueOf(user_id));
+                //監視対象(favoriteRef)の場所にaddChildEventListener()を呼ぶことで監視できる
+                favoriteRef.addChildEventListener(mEventListenerFav);
+
             } else {
                 // User is signed out
                 Log.d("debag", "onAuthStateChanged:signed_out");
